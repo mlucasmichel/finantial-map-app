@@ -1,0 +1,98 @@
+[
+  {
+    "model": "budget.category",
+    "pk": 1,
+    "fields": {
+      "name": "Food & Drinks",
+      "type": "E"
+    }
+  },
+  {
+    "model": "budget.category",
+    "pk": 2,
+    "fields": {
+      "name": "Shopping",
+      "type": "E"
+    }
+  },
+  {
+    "model": "budget.category",
+    "pk": 3,
+    "fields": {
+      "name": "Housing",
+      "type": "E"
+    }
+  },
+  {
+    "model": "budget.category",
+    "pk": 4,
+    "fields": {
+      "name": "Transportation",
+      "type": "E"
+    }
+  },
+  {
+    "model": "budget.category",
+    "pk": 5,
+    "fields": {
+      "name": "Vehicle",
+      "type": "E"
+    }
+  },
+    {
+        "model": "budget.category",
+        "pk": 6,
+        "fields": {
+        "name": "Life & Entertainment",
+        "type": "E"
+        }
+    },
+    {
+        "model": "budget.category",
+        "pk": 7,
+        "fields": {
+        "name": "Communication, PC & Subscriptions",
+        "type": "E"
+        }
+    },
+    {
+        "model": "budget.category",
+        "pk": 8,
+        "fields": {
+        "name": "Financial Expenses",
+        "type": "E"
+        }
+    },
+    {
+        "model": "budget.category",
+        "pk": 9,
+        "fields": {
+        "name": "Investments",
+        "type": "I"
+        }
+    },
+    {
+        "model": "budget.category",
+        "pk": 10,
+        "fields": {
+        "name": "Wages & Salaries",
+        "type": "I"
+        }
+    },
+    {
+        "model": "budget.category",
+        "pk": 11,
+        "fields": {
+        "name": "Other Incomes",
+        "type": "I"
+        }
+    },
+    {
+        "model": "budget.category",
+        "pk": 12,
+        "fields": {
+        "name": "Other Expenses",
+        "type": "E"
+        }
+    }
+]
