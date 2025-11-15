@@ -1,4 +1,11 @@
+core.Microsoft*
+core.mongo*
+core.python*
+env.py
 .venv/
 __pycache__/
 *.pyc
+*.py[cod]
+.github/
+cloudinary_python.txt
 db.sqlite3
