@@ -7,6 +7,7 @@ from .forms import AccountForm
 
 # Create your views here.
 
+
 # -- Account List View -- #
 class AccountListView(LoginRequiredMixin, ListView):
     model = Account
@@ -22,7 +23,7 @@ class AccountCreateView(LoginRequiredMixin, CreateView):
     model = Account
     form_class = AccountForm
     template_name = 'budget/account_form.html'
-    success_url = reverse_lazy('account-list')
+    success_url = reverse_lazy('account_list')
 
     def form_valid(self, form):
         form.instance.user = self.request.user
@@ -33,8 +34,7 @@ class AccountCreateView(LoginRequiredMixin, CreateView):
 class AccountDeleteView(LoginRequiredMixin, DeleteView):
     model = Account
     template_name = 'budget/account_confirm_delete.html'
-    success_url = reverse_lazy('account-list')
-
+    success_url = reverse_lazy('account_list')
     def get_queryset(self):
         return Account.objects.filter(user=self.request.user)
 
@@ -44,7 +44,7 @@ class AccountUpdateView(LoginRequiredMixin, UpdateView):
     model = Account
     form_class = AccountForm
     template_name = 'budget/account_form.html'
-    success_url = reverse_lazy('account-list')
+    success_url = reverse_lazy('account_list')
 
     def get_queryset(self):
         return Account.objects.filter(user=self.request.user)
