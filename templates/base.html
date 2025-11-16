@@ -45,7 +45,7 @@
                     <ul class="navbar-nav">
                         {% if user.is_authenticated %}
                             <li class="nav-item">
-                                <a class="nav-link" href="#">Profile ({{ user.username }})</a>
+                                <a class="nav-link" href="#"><i class="fa-solid fa-user"></i> ({{ user.username }})</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link btn btn-outline-danger ms-2" href="#">Logout</a>
@@ -78,10 +78,14 @@
         {% endblock content %}
     </main>
 
+    <!-- Bootstrap -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" 
             integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" 
             crossorigin="anonymous">
     </script>
+
+    <!-- Font Awesome -->
+    <script src="https://kit.fontawesome.com/fa41a0a3f2.js" crossorigin="anonymous"></script>
     
     <footer class="mt-auto">
         <div class="container text-center text-muted py-3">
