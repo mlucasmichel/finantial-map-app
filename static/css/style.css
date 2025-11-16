@@ -67,3 +67,7 @@ footer {
   color: var(--text-100);
   box-shadow: var(--float-shadow);
 }
+
+.navbar-brand {
+  margin-left: 50px;
+}
