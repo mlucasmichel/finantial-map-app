@@ -1,0 +1,27 @@
+<h5 class="mb-3">Filter Transactions</h5>
+<form method="get" class="card p-3 shadow-sm">
+    {# Placeholder for your filtering form fields #}
+    <div class="mb-3">
+        <label for="id_account" class="form-label">Account</label>
+        <select class="form-select" id="id_account" name="account">
+            <option value="">All Accounts</option>
+            {# Loop through user's accounts here #}
+        </select>
+    </div>
+    
+    <div class="mb-3">
+        <label for="id_category" class="form-label">Category</label>
+        <select class="form-select" id="id_category" name="category">
+            <option value="">All Categories</option>
+            {# Loop through categories here #}
+        </select>
+    </div>
+    
+    <div class="mb-3">
+        <label for="id_start_date" class="form-label">Start Date</label>
+        <input type="date" class="form-control" id="id_start_date" name="start_date">
+    </div>
+
+    <button type="submit" class="btn btn-success w-100">Apply Filters</button>
+    <a href="{% url 'transaction_list' %}" class="btn btn-outline-secondary w-100 mt-2">Clear Filters</a>
+</form>

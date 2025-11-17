@@ -1,0 +1,65 @@
+{% extends 'budget/two_column_base.html' %}
+{% block title %}Transaction List{% endblock title %}
+
+{% block sidebar_content %}
+    {% include 'budget/transaction_sidebar.html' %}
+{% endblock sidebar_content %}
+
+{% block main_content %}
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1 class="h3">Transaction History</h1>
+        <a href="{% url 'transaction_create' %}" class="btn btn-primary">+ Add New Transaction</a>
+    </div>
+
+{% if transactions %}
+<div class="table-responsive">
+    <table class="table table-striped table-hover">
+        <thead>
+            <tr>
+                <th>Date</th>
+                <th>Description</th>
+                <th>Account</th>
+                <th>Category</th>
+                <th class="text-end">Amount</th>
+                <th class="text-end">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for transaction in transactions %}
+            <tr>
+                <td>{{ transaction.date|date:"M d, Y" }}</td>
+                <td>{{ transaction.description }}</td>
+                <td>{{ transaction.account.name }}</td>
+                
+                <td>
+                    {% if transaction.category.type == 'I' %}
+                        <span class="badge bg-success">{{ transaction.category.name }}</span>
+                    {% else %}
+                        <span class="badge bg-danger">{{ transaction.category.name }}</span>
+                    {% endif %}
+                </td>
+
+                <td class="text-end fw-bold">
+                    {% if transaction.category.type == 'I' %}
+                        <span class="text-success">+{{ transaction.amount }}</span>
+                    {% else %}
+                        <span class="text-danger">-{{ transaction.amount }}</span>
+                    {% endif %}
+                </td>
+                
+                <td class="text-end">
+                    <a href="{% url 'transaction_update' transaction.pk %}" class="btn btn-sm btn-outline-secondary">Edit</a>
+                    <a href="{% url 'transaction_delete' transaction.pk %}" class="btn btn-sm btn-outline-danger">Delete</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% else %}
+    <div class="alert alert-info" role="alert">
+        You have not added any transactions yet. Use the "Add New Transaction" button to get started!
+    </div>
+{% endif %}
+
+{% endblock main_content %}

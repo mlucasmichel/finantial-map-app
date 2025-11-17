@@ -15,7 +15,7 @@
 </head>
 <body class="d-flex flex-column min-vh-100">
     <header>
-        <nav class="navbar navbar-expand-lg">
+        <nav class="navbar navbar-expand-lg card-top">
             <div class="container-fluid">
                 <a class="navbar-brand" href="#">
                     <img src="{% static 'images/financial-map-logo.png' %}" alt="Financial Map Logo" class="d-inline-block align-text-top">
@@ -61,7 +61,7 @@
         </nav>
     </header>
 
-    <main class="container my-4">
+    <main class="container-fluid">
         {% if messages %}
             {% for message in messages %}
                 <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">

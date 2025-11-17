@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% block title %}Delete Transaction{% endblock title %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="card border-danger">
+            <div class="card-header bg-danger text-white">
+                <h3 class="mb-0">Confirm Deletion</h3>
+            </div>
+            <div class="card-body">
+                <p class="card-text">Are you sure you want to permanently delete the following transaction?</p>
+                
+                <blockquote class="blockquote mb-0 p-3 bg-light rounded">
+                    <p class="mb-1 fw-bold">{{ object.description }}</p>
+                    <footer class="blockquote-footer">Amount: {{ object.amount }} | Category: {{ object.category.name }}</footer>
+                </blockquote>
+
+                <form method="post" class="mt-4">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-danger me-2">Yes, Delete It</button>
+                    <a href="{% url 'transaction_list' %}" class="btn btn-secondary">Cancel</a>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}
