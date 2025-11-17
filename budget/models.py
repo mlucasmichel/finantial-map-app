@@ -5,6 +5,7 @@ User = get_user_model()
 
 # Create your models here.
 
+
 # -- Category Model -- #
 class Category(models.Model):
     CATEGORY_TYPE_CHOICES = [
@@ -31,7 +32,7 @@ class Category(models.Model):
 
     def __str__(self):
         return f"{self.name} - ({self.get_type_display()})"
-    
+
 
 # -- Account Model -- #
 class Account(models.Model):
@@ -53,6 +54,52 @@ class Account(models.Model):
     class Meta:
         unique_together = ('user', 'name')
         ordering = ['name']
-    
+
     def __str__(self):
         return f"{self.name} - ({self.user.username})"
+
+
+# -- Transaction Model -- #
+class Transaction(models.Model):
+    # -- Foreign Keys -- #
+    account = models.ForeignKey(
+        Account,
+        on_delete=models.CASCADE,
+        related_name='transactions'
+    )
+
+    category = models.ForeignKey(
+        Category,
+        on_delete=models.SET_NULL,
+        null=True,
+        related_name='transactions',
+    )
+
+    user = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        related_name='transactions'
+    )
+
+    # -- Fields -- #
+    amount = models.DecimalField(
+        max_digits=10,
+        decimal_places=2,
+        null=False
+    )
+
+    date = models.DateField(
+        null=False
+    )
+
+    description = models.TextField(
+        max_length=255,
+        null=False,
+        blank=False
+    )
+
+    class Meta:
+        ordering = ['-date']
+
+    def __str__(self):
+        return f"{self.description} - {self.amount} on {self.date} ({self.user.username})"
