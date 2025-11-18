@@ -103,3 +103,41 @@ class Transaction(models.Model):
 
     def __str__(self):
         return f"{self.description} - {self.amount} on {self.date} ({self.user.username})"
+
+
+# -- Budget Model -- #
+class Budget(models.Model):
+    # -- Foreign Keys -- #
+    user = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        related_name='budgets'
+    )
+
+    category = models.ForeignKey(
+        Category,
+        on_delete=models.CASCADE,
+        related_name='budgets'
+    )
+
+    # -- Fields -- #
+    limit_amount = models.DecimalField(
+        max_digits=10,
+        decimal_places=2,
+        null=False,
+        default=0.00
+    )
+
+    month = models.IntegerField(
+        null=False
+        )
+    year = models.IntegerField(
+        null=False
+        )
+
+    class Meta:
+        unique_together = ('user', 'category', 'month', 'year')
+        ordering = ['-year', '-month', 'category__name']
+
+    def __str__(self):
+        return f"Budget for {self.category.name} - {self.month}/{self.year} ({self.user.username})"
