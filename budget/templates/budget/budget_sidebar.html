@@ -1,0 +1,13 @@
+<a href="{% url 'budget_create' %}" class="btn btn-success w-100 mb-3">
+    + Set New Budget
+</a>
+
+<div class="card p-3 shadow-sm">
+    <h5 class="mb-3 text-primary">Budget Status Legend</h5>
+    <ul class="list-unstyled small">
+        <li><span class="badge bg-success">On Track</span>: Less than 75% spent.</li>
+        <li><span class="badge bg-warning">Warning</span>: 75% - 100% spent.</li>
+        <li><span class="badge bg-danger">Overspent</span>: Over 100% spent.</li>
+    </ul>
+    <p class="text-muted small mb-0">Note: Actual vs. Spent data will appear on the Dashboard.</p>
+</div>

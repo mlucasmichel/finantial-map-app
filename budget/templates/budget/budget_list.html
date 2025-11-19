@@ -1,0 +1,48 @@
+{% extends 'budget/two_column_base.html' %}
+{% block title %}Monthly Budgets{% endblock title %}
+
+{% block sidebar_content %}
+    {% include 'budget/budget_sidebar.html' %}
+{% endblock sidebar_content %}
+
+{% block main_content %}
+    <h1 class="h3 mb-4">Your Monthly Spending Limits</h1>
+    
+    {% if budgets %}
+        <div class="table-responsive">
+            <table class="table table-striped table-hover">
+                <thead>
+                    <tr>
+                        <th>Category</th>
+                        <th>Period</th>
+                        <th class="text-end">Monthly Limit</th>
+                        <th class="text-end">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for budget in budgets %}
+                    <tr>
+                        <td>{{ budget.category.name }}</td>
+                        <td>
+                            {{ budget.month|date:"F" }} {{ budget.year }}
+                        </td>
+                        <td class="text-end fw-bold text-danger">
+                            ${{ budget.limit_amount|floatformat:2 }}
+                        </td>
+                        
+                        <td class="text-end">
+                            <a href="{% url 'budget_update' budget.pk %}" class="btn btn-sm btn-outline-secondary">Edit</a>
+                            <a href="{% url 'budget_delete' budget.pk %}" class="btn btn-sm btn-outline-danger">Delete</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    {% else %}
+        <div class="alert alert-info" role="alert">
+            You have not set any budgets yet. Use the "Set New Budget" button to create your first spending limit.
+        </div>
+    {% endif %}
+    
+{% endblock main_content %}
