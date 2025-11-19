@@ -68,7 +68,8 @@ class BudgetForm(forms.ModelForm):
         model = Budget
         fields = ['category', 'limit_amount', 'month', 'year']
         widgets = {
-            'limit_amount': forms.NumberInput(attrs={'placeholder': '0.00', 'step': '0.01', 'min': '0'})
+            'limit_amount': forms.NumberInput(attrs={'placeholder': '0.00', 'step': '0.01', 'min': '0', 'class': 'form-control'}),
+            'category': forms.Select(attrs={'class': 'form-select'})
         }
 
     def __init__(self, *args, **kwargs):
@@ -76,7 +77,7 @@ class BudgetForm(forms.ModelForm):
         super().__init__(*args, **kwargs)
 
         self.fields['category'].queryset = Category.objects.filter(type='E').order_by('name')
-        self.fields['limit_amount'].widget.attrs.update({'class': 'form-control'})
+
         if user:
             self.initial['user'] = user
 
