@@ -1,7 +1,10 @@
 from django.shortcuts import render
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.views.generic import ListView, CreateView, DeleteView, UpdateView
+from django.views.generic import ListView, CreateView, DeleteView, UpdateView, TemplateView
 from django.urls import reverse_lazy
+from django.db.models import Sum
+from datetime import date
+
 from .models import Account, Transaction, Budget
 from .forms import AccountForm, TransactionForm, BudgetForm
 
@@ -168,3 +171,74 @@ class BudgetDeleteView(LoginRequiredMixin, DeleteView):
         return Budget.objects.filter(user=self.request.user)
 
 # -- (Budget Views End) -- #
+
+
+# -- Dashboard View -- #
+class DashboardView(LoginRequiredMixin, TemplateView):
+    """
+    Template view for the user dashboard.
+    """
+    template_name = 'budget/dashboard.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        user = self.request.user
+        today = date.today()
+        current_month = today.month
+        current_year = today.year
+
+        # -- Total balance across all accounts -- #
+        balancce_summary = Account.objects.filter(user=user).aggregate(total_balance=Sum('balance'))
+        context['total_balance'] = balancce_summary['total_balance'] or 0.00
+
+        # -- Transactions and Budgets for the current month -- #
+        monthly_transactions = Transaction.objects.filter(
+            user=user,
+            date__month=current_month,
+            date__year=current_year
+        )
+
+        # -- Total spending grouped by category -- #
+        spending_by_category = monthly_transactions.filter(
+            category__type='E'
+        ).values(
+            'category__name'
+        ).annotate(
+            total_spent=Sum('amount')
+        ).order_by('category__name')
+
+        context['spending_by_category'] = list(spending_by_category)
+
+        # -- Budgets for the current month -- #
+        budgets = Budget.objects.filter(
+            user=user,
+            month=current_month,
+            year=current_year
+        ).select_related('category')
+
+        budget_summary_list = []
+        spent_map = {item['category__name']: item['total_spent'] for item in spending_by_category}
+
+        for budget in budgets:
+            category_name = budget.category.name
+            limit = budget.limit_amount
+            spent = spent_map.get(category_name, 0)
+
+            remaining = limit - spent
+
+            percent_used = (spent / limit * 100) if limit > 0 else 0
+
+            budget_summary_list.append({
+                'category_name': category_name,
+                'limit': limit,
+                'spent': spent,
+                'remaining': remaining,
+                'percent_used': percent_used,
+                'status': 'danger' if percent_used > 100 else 'warning' if percent_used > 75 else 'success'
+            })
+
+        context['budget_summary_list'] = budget_summary_list
+        context['current_month'] = current_month
+        context['current_year'] = current_year
+
+        return context

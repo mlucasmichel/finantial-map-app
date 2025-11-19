@@ -2,6 +2,9 @@ from django.urls import path
 from . import views
 
 urlpatterns = [
+    # -- Dashboard URL -- #
+    path('', views.DashboardView.as_view(), name='dashboard'),
+
     # -- Account URLs -- #
     path('accounts/', views.AccountListView.as_view(), name='account_list'),
     path('accounts/add/', views.AccountCreateView.as_view(), name='account_create'),
