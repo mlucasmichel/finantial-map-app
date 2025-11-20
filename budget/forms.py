@@ -1,6 +1,30 @@
 from django import forms
 from datetime import date
+from allauth.account.forms import SignupForm, LoginForm
 from .models import Account, Transaction, Category, Budget
+
+
+# -- Custom Signup Form for Allauth -- #
+class CustomSignupForm(SignupForm):
+
+    def __init__(self, *args, **kwargs):
+        super(CustomSignupForm, self).__init__(*args, **kwargs)
+
+        self.fields['username'].widget.attrs['class'] = 'form-control'
+        self.fields['email'].widget.attrs['class'] = 'form-control'
+        self.fields['password1'].widget.attrs['class'] = 'form-control'
+        self.fields['password2'].widget.attrs['class'] = 'form-control'
+
+
+# -- Custom Login Form for Allauth -- #
+class CustomLoginForm(LoginForm):
+
+    def __init__(self, *args, **kwargs):
+        super(CustomLoginForm, self).__init__(*args, **kwargs)
+
+        self.fields['login'].widget.attrs['class'] = 'form-control'
+        self.fields['password'].widget.attrs['class'] = 'form-control'
+        self.fields['remember'].widget.attrs['class'] = 'form-check-input'
 
 
 # -- Account Form -- #

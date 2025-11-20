@@ -126,7 +126,8 @@ AUTH_PASSWORD_VALIDATORS = [
 ACCOUNT_EMAIL_VERIFICATION = 'none'
 
 ACCOUNT_FORMS = {
-    'signup': 'allauth.account.forms.SignupForm',
+    'signup': 'budget.forms.CustomSignupForm',
+    'login': 'budget.forms.CustomLoginForm',
 }
 
 

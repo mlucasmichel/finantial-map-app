@@ -104,6 +104,7 @@ class TransactionListView(LoginRequiredMixin, ListView):
 
         return queryset
 
+
 # -- Transaction Create View -- #
 class TransactionCreateView(LoginRequiredMixin, CreateView):
     model = Transaction
