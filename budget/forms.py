@@ -40,6 +40,40 @@ class TransactionForm(forms.ModelForm):
         self.fields['category'].queryset = Category.objects.all().order_by('name')
 
 
+# -- Transaction Filter Form -- #
+class TransactionFilterForm(forms.Form):
+    accounts = forms.ModelMultipleChoiceField(
+        queryset=Account.objects.none(),
+        required=False,
+        label='Accounts',
+        widget=forms.SelectMultiple(attrs={'class': 'form-select'})
+    )
+
+    categories = forms.ModelMultipleChoiceField(
+        queryset=Category.objects.none(),
+        required=False,
+        label='Categories',
+        widget=forms.SelectMultiple(attrs={'class': 'form-select'})
+    )
+    start_date = forms.DateField(
+        required=False,
+        label='Start Date',
+        widget=forms.DateInput(attrs={'type': 'date', 'class': 'form-control'})
+    )
+    end_date = forms.DateField(
+        required=False,
+        label='End Date',
+        widget=forms.DateInput(attrs={'type': 'date', 'class': 'form-control'})
+    )
+
+    def __init__(self, *args, **kwargs):
+        user = kwargs.pop('user', None)
+        super().__init__(*args, **kwargs)
+
+        if user is not None:
+            self.fields['accounts'].queryset = Account.objects.filter(user=user).order_by('name')
+            self.fields['categories'].queryset = Category.objects.all().order_by('name')
+
 # -- Budget Form -- #
 
 MONTH_CHOICES = [
