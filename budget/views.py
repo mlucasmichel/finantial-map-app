@@ -2,11 +2,11 @@ from django.shortcuts import render
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import ListView, CreateView, DeleteView, UpdateView, TemplateView
 from django.urls import reverse_lazy
-from django.db.models import Sum
+from django.db.models import Sum, Q
 from datetime import date
 
 from .models import Account, Transaction, Budget
-from .forms import AccountForm, TransactionForm, BudgetForm
+from .forms import AccountForm, TransactionFilterForm, TransactionForm, BudgetForm
 
 # Create your views here.
 
@@ -67,10 +67,42 @@ class TransactionListView(LoginRequiredMixin, ListView):
     model = Transaction
     template_name = 'budget/transaction_list.html'
     context_object_name = 'transactions'
+    paginate_by = 25
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['filter_form'] = TransactionFilterForm(
+            self.request.GET,
+            user=self.request.user
+            )
+        return context
 
     def get_queryset(self):
-        return Transaction.objects.filter(user=self.request.user).order_by('-date')
+        user = self.request.user
+        queryset = Transaction.objects.filter(user=user).select_related('account', 'category').order_by('-date')
 
+        form = TransactionFilterForm(self.request.GET, user=user)
+
+        if form.is_valid():
+            accounts = form.cleaned_data.get('accounts')
+            categories = form.cleaned_data.get('categories')
+            start_date = form.cleaned_data.get('start_date')
+            end_date = form.cleaned_data.get('end_date')
+
+            if accounts:
+                queryset = queryset.filter(account__in=accounts)
+            
+            if categories:
+                queryset = queryset.filter(category__in=categories)
+            
+            if start_date and end_date:
+                queryset = queryset.filter(date__range=(start_date, end_date))
+            elif start_date:
+                queryset =queryset.filter(date__gte=start_date)
+            elif end_date:
+                queryset =queryset.filter(date__lte=end_date)
+
+        return queryset
 
 # -- Transaction Create View -- #
 class TransactionCreateView(LoginRequiredMixin, CreateView):
