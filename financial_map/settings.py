@@ -128,6 +128,7 @@ ACCOUNT_EMAIL_VERIFICATION = 'none'
 ACCOUNT_FORMS = {
     'signup': 'budget.forms.CustomSignupForm',
     'login': 'budget.forms.CustomLoginForm',
+    'add_email': 'budget.forms.CustomEmailForm',
 }
 
 

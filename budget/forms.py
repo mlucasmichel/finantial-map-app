@@ -1,6 +1,6 @@
 from django import forms
 from datetime import date
-from allauth.account.forms import SignupForm, LoginForm
+from allauth.account.forms import SignupForm, LoginForm, AddEmailForm
 from .models import Account, Transaction, Category, Budget
 
 
@@ -25,6 +25,13 @@ class CustomLoginForm(LoginForm):
         self.fields['login'].widget.attrs['class'] = 'form-control'
         self.fields['password'].widget.attrs['class'] = 'form-control'
         self.fields['remember'].widget.attrs['class'] = 'form-check-input'
+
+
+# -- Custom Profile Form for Allauth -- #
+class CustomEmailForm(AddEmailForm):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['email'].widget.attrs['class'] = 'form-control'
 
 
 # -- Account Form -- #
@@ -61,7 +68,8 @@ class TransactionForm(forms.ModelForm):
         if user is not None:
             self.fields['account'].queryset = Account.objects.filter(user=user)
 
-        self.fields['category'].queryset = Category.objects.all().order_by('name')
+        self.fields['category'].queryset = Category.objects.all().order_by(
+            'name')
 
 
 # -- Transaction Filter Form -- #
@@ -95,11 +103,13 @@ class TransactionFilterForm(forms.Form):
         super().__init__(*args, **kwargs)
 
         if user is not None:
-            self.fields['accounts'].queryset = Account.objects.filter(user=user).order_by('name')
-            self.fields['categories'].queryset = Category.objects.all().order_by('name')
+            self.fields['accounts'].queryset = Account.objects.filter(
+                user=user).order_by('name')
+            self.fields['categories'].queryset = Category.objects.all().order_by(
+                'name')
+
 
 # -- Budget Form -- #
-
 MONTH_CHOICES = [
     (1, 'January'), (2, 'February'), (3, 'March'),
     (4, 'April'), (5, 'May'), (6, 'June'),
@@ -107,7 +117,8 @@ MONTH_CHOICES = [
     (10, 'October'), (11, 'November'), (12, 'December')
 ]
 
-YEAR_CHOICES = [(year, year) for year in range(date.today().year, date.today().year + 6)]
+YEAR_CHOICES = [(year, year)
+                for year in range(date.today().year, date.today().year + 6)]
 
 
 class BudgetForm(forms.ModelForm):
@@ -134,7 +145,8 @@ class BudgetForm(forms.ModelForm):
         user = kwargs.pop('user', None)
         super().__init__(*args, **kwargs)
 
-        self.fields['category'].queryset = Category.objects.filter(type='E').order_by('name')
+        self.fields['category'].queryset = Category.objects.filter(
+            type='E').order_by('name')
 
         if user:
             self.initial['user'] = user

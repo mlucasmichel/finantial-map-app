@@ -58,8 +58,7 @@
                     <ul class="navbar-nav">
                         {% if user.is_authenticated %}
                         <li class="nav-item">
-                            <a class="nav-link" href="{% url 'account_email' %}"><i class="fa-solid fa-user"></i> ({{
-                                user.username }})</a>
+                            <a class="nav-link" href="{% url 'account_email' %}"><i class="fa-solid fa-user"></i> ({{ user.username }})</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link btn btn-outline-danger ms-2" href="{% url 'account_logout' %}">Logout</a>
