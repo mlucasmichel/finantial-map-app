@@ -38,8 +38,8 @@
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse justify-content-between" id="navbarNav">
-                    {% if user.is_authenticated %}
                     <ul class="navbar-nav">
+                        {% if user.is_authenticated %}
                         <li class="nav-item">
                             <a class="nav-link" href="{% url 'dashboard' %}">Dashboard</a>
                         </li>
@@ -52,17 +52,26 @@
                         <li class="nav-item">
                             <a class="nav-link" href="{% url 'budget_list' %}">Budgets</a>
                         </li>
+                        {% endif %}
                     </ul>
 
                     <ul class="navbar-nav">
+                        {% if user.is_authenticated %}
                         <li class="nav-item">
                             <a class="nav-link" href="{% url 'account_email' %}"><i class="fa-solid fa-user"></i> ({{ user.username }})</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link btn btn-outline-danger ms-2" href="{% url 'account_logout' %}">Logout</a>
                         </li>
+                        {% else %}
+                        <li class="nav-item">
+                            <a class="nav-link button secondary-btn me-2" href="{% url 'account_login' %}">Log In</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link button main-btn ms-2" href="{% url 'account_signup' %}">Sign Up</a>
+                        </li>
+                        {% endif %}
                     </ul>
-                    {% endif %}
                 </div>
             </div>
         </nav>

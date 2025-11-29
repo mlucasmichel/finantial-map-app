@@ -98,7 +98,6 @@ hr {
   cursor: pointer;
   transition: background-color 0.3s ease, box-shadow 0.3s ease;
 }
-
 .main-btn {
   background-color: var(--primary-100);
   color: var(--text-200);
@@ -108,6 +107,18 @@ hr {
 }
 .main-btn:hover {
   background-color: var(--primary-100);
+  box-shadow: var(--float-shadow);
+  transform: scale(1.02);
+}
+
+.secondary-btn {
+  background-color: var(--bg-300);
+  color: var(--text-200);
+  font-weight: 600;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease, transform 0.2s ease;
+}
+.secondary-btn:hover {
+  background-color: var(--bg-300);
   box-shadow: var(--float-shadow);
   transform: scale(1.02);
 }
