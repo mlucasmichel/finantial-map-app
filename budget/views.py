@@ -220,6 +220,10 @@ class DashboardView(LoginRequiredMixin, TemplateView):
         current_month = today.month
         current_year = today.year
 
+        # -- User Accounts -- #
+        user_accounts = Account.objects.filter(user=user)
+        context['accounts'] = user_accounts
+
         # -- Total balance across all accounts -- #
         balancce_summary = Account.objects.filter(user=user).aggregate(total_balance=Sum('balance'))
         context['total_balance'] = balancce_summary['total_balance'] or 0.00

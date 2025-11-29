@@ -165,3 +165,24 @@ footer {
 }
 
 /* --- END General styles --- */
+
+/* --- Specific component styles --- */
+/* Account cards */
+.account-card {
+  background-color: var(--bg-200);
+  border: 1px solid var(--bg-300);
+  font-family: var(--font-secondary);
+  font-size: calc(0.87rem * 1);
+  text-transform: capitalize;
+  color: var(--text-100);
+  border-radius: 15px;
+  padding: 1rem;
+  transition: box-shadow 0.3s ease, transform 0.2s ease;
+}
+.account-card:hover {
+  box-shadow: var(--float-shadow);
+  transform: scale(1.02);
+  cursor: pointer;
+}
+
+/* --- END Specific component styles --- */
