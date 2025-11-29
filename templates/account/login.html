@@ -7,8 +7,8 @@
 {% block content %}
 <section id="login-section" class="h-100 d-flex flex-column">
     <div class="row my-auto justify-content-center">
-        <div class="col-sm-6 col-md-5 col-lg-4">
-            <div class="card shadow-lg">
+        <div class="col-sm-6 col-md-6 col-lg-4 col-xl-3 col-xxl-3">
+            <div class="main-card">
                 <div class="card-body p-4">
                     <div class="text-center mb-4">
                         <h1 class="h3">Login</h1>
@@ -23,34 +23,32 @@
                         </div>
                         {% endif %}
                         <div class="mb-3">
-                            <label for="{{ form.login.id_for_label }}" class="form-label">{{ form.login.label }}</label>
                             {{ form.login }}
                             {% for error in form.login.errors %}
                             <div class="text-danger small">{{ error }}</div>
                             {% endfor %}
                         </div>
                         <div class="mb-3">
-                            <label for="{{ form.password.id_for_label }}" class="form-label">{{ form.password.label }}</label>
                             {{ form.password }}
                             {% for error in form.password.errors %}
                             <div class="text-danger small">{{ error }}</div>
                             {% endfor %}
                         </div>
-                        <div class="form-check mb-3">
+                        <div class="mb-3 d-flex align-items-center gap-2">
                             {{ form.remember }}
-                            <label class="form-check-label" for="{{ form.remember.id_for_label }}">{% trans "Remember Me" %}</label>
+                            <label for="{{ form.remember.id_for_label }}">{% trans "Remember Me" %}</label>
                         </div>
                         {% if redirect_field_value %}
                         <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
                         {% endif %}
-                        <button class="btn btn-primary w-100" type="submit">{% trans "Sign In" %}</button>
+                        <button class="button main-btn w-100 text-uppercase" type="submit">{% trans "Sign In" %}</button>
                         <hr>
                         <p class="text-center small">
                             <a href="{% url 'account_reset_password' %}">{% trans "Forgot Password?" %}</a>
                         </p>
                     </form>
                 </div>
-                <div class="card-footer text-center bg-light">
+                <div class="card-footer text-center pb-2">
                     <p class="mb-0 small">
                         {% trans "Don't have an account?" %} <a href="{% url 'account_signup' %}">{% trans "Sign Up" %}</a>
                     </p>

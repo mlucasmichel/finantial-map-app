@@ -10,10 +10,10 @@ class CustomSignupForm(SignupForm):
     def __init__(self, *args, **kwargs):
         super(CustomSignupForm, self).__init__(*args, **kwargs)
 
-        self.fields['username'].widget.attrs['class'] = 'form-control'
-        self.fields['email'].widget.attrs['class'] = 'form-control'
-        self.fields['password1'].widget.attrs['class'] = 'form-control'
-        self.fields['password2'].widget.attrs['class'] = 'form-control'
+        self.fields['username'].widget.attrs['class'] = 'form-field'
+        self.fields['email'].widget.attrs['class'] = 'form-field'
+        self.fields['password1'].widget.attrs['class'] = 'form-field'
+        self.fields['password2'].widget.attrs['class'] = 'form-field'
 
 
 # -- Custom Login Form for Allauth -- #
@@ -22,16 +22,16 @@ class CustomLoginForm(LoginForm):
     def __init__(self, *args, **kwargs):
         super(CustomLoginForm, self).__init__(*args, **kwargs)
 
-        self.fields['login'].widget.attrs['class'] = 'form-control'
-        self.fields['password'].widget.attrs['class'] = 'form-control'
-        self.fields['remember'].widget.attrs['class'] = 'form-check-input'
+        self.fields['login'].widget.attrs['class'] = 'form-field'
+        self.fields['password'].widget.attrs['class'] = 'form-field'
+        self.fields['remember'].widget.attrs['class'] = 'form-checkbox'
 
 
 # -- Custom Profile Form for Allauth -- #
 class CustomEmailForm(AddEmailForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields['email'].widget.attrs['class'] = 'form-control'
+        self.fields['email'].widget.attrs['class'] = 'form-field'
 
 
 # -- Account Form -- #
@@ -90,12 +90,12 @@ class TransactionFilterForm(forms.Form):
     start_date = forms.DateField(
         required=False,
         label='Start Date',
-        widget=forms.DateInput(attrs={'type': 'date', 'class': 'form-control'})
+        widget=forms.DateInput(attrs={'type': 'date', 'class': 'form-field'})
     )
     end_date = forms.DateField(
         required=False,
         label='End Date',
-        widget=forms.DateInput(attrs={'type': 'date', 'class': 'form-control'})
+        widget=forms.DateInput(attrs={'type': 'date', 'class': 'form-field'})
     )
 
     def __init__(self, *args, **kwargs):
@@ -137,7 +137,7 @@ class BudgetForm(forms.ModelForm):
         model = Budget
         fields = ['category', 'limit_amount', 'month', 'year']
         widgets = {
-            'limit_amount': forms.NumberInput(attrs={'placeholder': '0.00', 'step': '0.01', 'min': '0', 'class': 'form-control'}),
+            'limit_amount': forms.NumberInput(attrs={'placeholder': '0.00', 'step': '0.01', 'min': '0', 'class': 'form-field'}),
             'category': forms.Select(attrs={'class': 'form-select'})
         }
 
