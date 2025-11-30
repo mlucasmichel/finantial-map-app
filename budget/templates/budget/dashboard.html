@@ -6,7 +6,6 @@
 
 <section id="accounts-section" class="container-fluid mb-4">
     <div class="row row-cols-md-4 row-cols-2 g-3">
-        {% if accounts %}
         {% for account in accounts %}
         <div class="col">
             <div class="account-card d-flex justify-content-between align-items-center">
@@ -25,16 +24,11 @@
         {% endfor %}
         <div class="col">
             <div class="account-card-add">
-                <div>
+                <div onclick="location.href='{% url 'account_create' %}'">
                     <h5 class="card-title h6">Add Account <i class="fa-solid fa-plus"></i></h5>
                 </div>
             </div>
         </div>
-        {% else %}
-        <div class="col-12">
-            <div class="alert alert-info">You haven't added any accounts yet.</div>
-        </div>
-        {% endif %}
     </div>
 </section>
 
