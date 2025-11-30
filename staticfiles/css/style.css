@@ -268,15 +268,40 @@ footer {
 }
 
 /* Charts */
-
 .chart-card {
-  min-height: 300px;
+  position: relative;
+  max-height: 320px;
+  padding-bottom: 20px !important;
+  overflow: hidden;
 }
-
+.chart-card::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 20px;
+  background: linear-gradient(to top, var(--bg-200), transparent);
+  pointer-events: none;
+}
+.card-content {
+  max-height: 280px;
+  padding-bottom: 0;
+  overflow: scroll;
+  scroll-behavior: smooth;
+  scrollbar-width: thin;
+  scrollbar-color: var(--bg-300) transparent;
+}
 #spendingChart {
   width: 200px !important;
   height: 200px !important;
 }
 
+/* Progress bars */
+.progress {
+  background-color: var(--bg-200);
+  border-radius: 10px;
+  box-shadow: var(--inset-shadow);
+}
 
 /* --- END Specific component styles --- */
