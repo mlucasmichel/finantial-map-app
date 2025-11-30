@@ -100,7 +100,9 @@
                         <p class="text-bubble mb-0">{{ selected_month_name }}</p>
                         <p class="text-bubble mb-0">-€{{ spending_by_category_total }}</p>
                     </div>
-                    <canvas id="spendingChart" class="py-0"></canvas>
+                    <div>
+                        <canvas id="spendingChart" class="py-0"></canvas>
+                    </div>
                 </div>
             </div>
         </div>
@@ -137,7 +139,7 @@
                         </div>
                         {% endfor %}
                     {% else %}
-                        <div class="alert alert-warning small">No budgets set for {{ filter_start_date|date:"F" }}.</div>
+                        <div class="text-center p-5 text-muted">No budgets set for {{ filter_start_date|date:"F" }}.</div>
                     {% endif %}
                 </div>
             </div>
@@ -145,23 +147,31 @@
         <!-- End - Monthly Budgets -->
     </div>
     
+    <!-- Start - Balance Trend -->
     <div class="row mt-4">
         <div class="col-12">
-            <div class="card shadow">
-                <div class="card-header bg-primary text-white">
-                    <h5 class="mb-0">Balance Trend Over Time</h5>
+            <div class="main-card">
+                <div class="card-header">
+                    <p class="mb-0">Balance Trend</p>
                 </div>
-                <div class="card-body">
+                <div class="d-flex flex-column align-items-center p-3">
+                    <div class="w-100 d-flex justify-content-between align-items-center mb-3">
+                        <p class="text-bubble mb-0">€{{ total_balance|floatformat:2 }}</p>
+                        <p class="text-bubble mb-0">{{ selected_month_name }}</p>
+                    </div>
                     <canvas id="balanceTrendChart"></canvas>
                 </div>
             </div>
         </div>
     </div>
+    <!-- End - Balance Trend -->
 </section>
 {% endblock content %}
 
 {% block extra_js %}
 {{ spending_by_category|json_script:"spending-data" }}
+{{ chart_labels|json_script:"balance-labels" }}
+{{ chart_data|json_script:"balance-data" }}
 
 <script src="{% static 'js/dashboard.js' %}"></script>
 {% endblock extra_js %}

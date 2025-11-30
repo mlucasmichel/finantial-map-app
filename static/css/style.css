@@ -270,6 +270,7 @@ footer {
 /* Charts */
 .chart-card {
   position: relative;
+  min-height: 320px;
   max-height: 320px;
   padding-bottom: 20px !important;
   overflow: hidden;
@@ -287,7 +288,7 @@ footer {
 .card-content {
   max-height: 280px;
   padding-bottom: 0;
-  overflow: scroll;
+  overflow-y: scroll;
   scroll-behavior: smooth;
   scrollbar-width: thin;
   scrollbar-color: var(--bg-300) transparent;
@@ -295,6 +296,10 @@ footer {
 #spendingChart {
   width: 200px !important;
   height: 200px !important;
+}
+
+#balanceTrendChart  {
+  max-height: 280px;
 }
 
 /* Progress bars */

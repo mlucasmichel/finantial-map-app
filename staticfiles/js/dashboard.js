@@ -81,7 +81,9 @@ document.addEventListener('DOMContentLoaded', function() {
                         label: ' Total Spent',
                         data: amounts,
                         backgroundColor: backgroundColors.slice(0, labels.length),
-                        hoverOffset: 7
+                        borderColor: '#ebe2cd',
+                        borderWidth: 2,
+                        hoverOffset: 3
                     }]
                 },
                 options: {
@@ -115,6 +117,31 @@ document.addEventListener('DOMContentLoaded', function() {
     const balanceLabelsElement = document.getElementById('balance-labels');
     const balanceDataElement = document.getElementById('balance-data');
     const trendCtx = document.getElementById('balanceTrendChart');
+
+    // Helper function to abbreviate large numbers
+    function abbreviateNumber(value) {
+        let newValue = value;
+        const sign = value < 0 ? -1 : 1;
+        value = Math.abs(value);
+
+        const suffixes = ["", "K", "M", "B","T"];
+        const suffixNum = Math.floor( ("" + value).length / 3 );
+
+        if (suffixNum > 0) {
+            let base = Math.pow(1000, suffixNum);
+            newValue = newValue / base;
+
+            if (Math.abs(newValue) % 1 !== 0) {
+                newValue = newValue.toFixed(1);
+            } else {
+                newValue = Math.round(newValue);
+            }
+        } else {
+            return newValue.toFixed(2);
+        }
+
+        return (newValue * sign) + suffixes[suffixNum];
+    }
     
     if (balanceLabelsElement && balanceDataElement && trendCtx) {
         // Parse data from the json_script tags
@@ -128,8 +155,22 @@ document.addEventListener('DOMContentLoaded', function() {
                     label: 'Total Balance',
                     data: data,
                     fill: true,
-                    borderColor: 'rgb(75, 192, 192)',
-                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                    borderColor: '#eb9c64',
+                    backgroundColor: 'rgba(235, 156, 100, 0.2)',
+                    borderCapStyle: 'butt',
+                    borderDash: [],
+                    borderDashOffset: 0.0,
+                    borderJoinStyle: 'miter',
+                    pointBorderColor: '#f5ecd7',
+                    pointBackgroundColor: '#8fbf9f',
+                    pointBorderWidth: 2,
+                    pointRadius: 4,
+                    pointHoverRadius: 6,
+                    pointHoverBackgroundColor: '#346145',
+                    pointHoverBorderColor: '#f5ecd7',
+                    pointHoverBorderWidth: 2,
+                    pointHitRadius: 30,
+                    pointStyle: 'circle',
                     tension: 0.1
                 }]
             };
@@ -142,26 +183,22 @@ document.addEventListener('DOMContentLoaded', function() {
                     plugins: {
                         legend: {
                             display: false
-                        },
-                        title: {
-                            display: true,
-                            text: 'Cumulative Financial Balance'
                         }
                     },
                     scales: {
                         y: {
                             beginAtZero: false,
                             title: {
-                                display: true,
-                                text: 'Balance (€)'
+                                display: false,
+                            },
+                            ticks: {
+                                callback: function(value) {
+                                    return '€' + abbreviateNumber(value);
+                                }
                             }
                         },
                         x: {
-                            type: 'category', 
-                            title: {
-                                display: true,
-                                text: 'Date'
-                            }
+                            type: 'category'
                         }
                     }
                 }

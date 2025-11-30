@@ -331,18 +331,18 @@ class DashboardView(LoginRequiredMixin, TemplateView):
         cumulative_balance = start_of_month_balance
         last_date = None
 
-        final_chart_labels.append(filter_start_date.strftime('%Y-%m-%d'))
+        final_chart_labels.append(filter_start_date.strftime('%d/%m'))
         final_chart_data.append(cumulative_balance)
 
         for t in transactions_in_period:
-            day_str = t['date'].strftime('%Y-%m-%d')
+            day_str = t['date'].strftime('%d/%m')
             cumulative_balance += t['amount']
             final_chart_labels.append(day_str)
             final_chart_data.append(cumulative_balance)
             last_date = t['date']
 
         if not last_date or last_date < filter_end_date:
-            final_chart_labels.append(filter_end_date.strftime('%Y-%m-%d'))
+            final_chart_labels.append(filter_end_date.strftime('%d/%m'))
             final_chart_data.append(cumulative_balance)
 
         context['chart_labels'] = final_chart_labels
