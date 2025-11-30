@@ -102,6 +102,21 @@ hr {
   transform: rotate(45deg);
 }
 
+select.form-select {
+  background-color: var(--bg-100);
+  border: 2px solid var(--bg-300);
+  border-radius: 10px;
+  text-align: center;
+}
+select.form-select:focus {
+  border-color: var(--primary-100);
+  box-shadow: 0 0 5px var(--primary-100);
+  outline: none;
+}
+select.form-select option {
+  background-color: var(--bg-100);
+}
+
 /* Buttons */
 .button {
   padding: 8px 8px;

@@ -46,6 +46,19 @@ hr {
 /* --- END Reset styles --- */
 
 /* --- Utility classes --- */
+.color-primary {
+  color: var(--primary-100);
+}
+.color-primary-200 {
+  color: var(--primary-200);
+}
+.color-primary-dark {
+  color: var(--primary-300);
+}
+.color-accent {
+  color: var(--accent-100);
+}
+/* Cards */
 .main-card {
   background-color: var(--bg-200);
   border-radius: 15px;
@@ -87,6 +100,21 @@ hr {
   border: solid var(--primary-100);
   border-width: 0 2px 2px 0;
   transform: rotate(45deg);
+}
+
+select.form-select {
+  background-color: var(--bg-100);
+  border: 2px solid var(--bg-300);
+  border-radius: 10px;
+  text-align: center;
+}
+select.form-select:focus {
+  border-color: var(--primary-100);
+  box-shadow: 0 0 5px var(--primary-100);
+  outline: none;
+}
+select.form-select option {
+  background-color: var(--bg-100);
 }
 
 /* Buttons */
@@ -173,6 +201,7 @@ footer {
   border: 1px solid var(--bg-300);
   font-family: var(--font-secondary);
   font-size: calc(0.87rem * 1);
+  max-height: 4rem;
   text-transform: capitalize;
   color: var(--text-100);
   border-radius: 15px;
@@ -180,7 +209,31 @@ footer {
   transition: box-shadow 0.3s ease, transform 0.2s ease;
 }
 .account-card:hover {
-  box-shadow: var(--float-shadow);
+  transform: scale(1.02);
+  cursor: pointer;
+}
+.account-card-add {
+  background-color: none;
+  color: var(--text-100);
+  height: 4rem;
+  border-radius: 15px;
+  cursor: pointer;
+}
+.account-card-add>div {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 2px dashed var(--bg-300);
+  color: var(--bg-300);
+  padding: 1rem 2rem;
+  border-radius: 15px;
+  transition: border-color 0.2s ease, color 0.2s ease, transform 0.2s ease;
+}
+.account-card-add>div:hover {
+  border-color: var(--primary-200);
+  color: var(--primary-200);
   transform: scale(1.02);
   cursor: pointer;
 }

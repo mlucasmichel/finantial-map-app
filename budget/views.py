@@ -1,3 +1,4 @@
+from decimal import Decimal
 from django.shortcuts import render
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import ListView, CreateView, DeleteView, UpdateView, TemplateView
@@ -252,7 +253,7 @@ class DashboardView(LoginRequiredMixin, TemplateView):
 
         # -- Total balance across all accounts -- #
         balance_summary = Account.objects.filter(user=user).aggregate(total_balance=Sum('balance'))
-        context['total_balance'] = balance_summary['total_balance'] or 0.00
+        context['total_balance'] = balance_summary['total_balance'] or Decimal('0.00')
 
         # -- Transactions and Budgets for the Selected month -- #
         monthly_transactions = Transaction.objects.filter(
@@ -284,7 +285,7 @@ class DashboardView(LoginRequiredMixin, TemplateView):
         for budget in budgets:
             category_name = budget.category.name
             limit = budget.limit_amount
-            spent = spent_map.get(category_name, 0)
+            spent = spent_map.get(category_name, Decimal('0.00'))
             remaining = limit - spent
 
             percent_used = (spent / limit * 100) if limit > 0 else 0
@@ -304,7 +305,7 @@ class DashboardView(LoginRequiredMixin, TemplateView):
         net_change_since_start = Transaction.objects.filter(
             user=user,
             date__gte=filter_start_date
-        ).aggregate(Sum('amount'))['amount__sum'] or 0.00
+        ).aggregate(Sum('amount'))['amount__sum'] or Decimal('0.00')
 
         start_of_month_balance = context['total_balance'] - net_change_since_start
 
@@ -321,18 +322,18 @@ class DashboardView(LoginRequiredMixin, TemplateView):
         last_date = None
 
         final_chart_labels.append(filter_start_date.strftime('%Y-%m-%d'))
-        final_chart_data.append(round(cumulative_balance, 2))
+        final_chart_data.append(cumulative_balance)
 
         for t in transactions_in_period:
             day_str = t['date'].strftime('%Y-%m-%d')
             cumulative_balance += t['amount']
             final_chart_labels.append(day_str)
-            final_chart_data.append(round(cumulative_balance, 2))
+            final_chart_data.append(cumulative_balance)
             last_date = t['date']
 
         if not last_date or last_date < filter_end_date:
             final_chart_labels.append(filter_end_date.strftime('%Y-%m-%d'))
-            final_chart_data.append(round(cumulative_balance, 2))
+            final_chart_data.append(cumulative_balance)
 
         context['chart_labels'] = final_chart_labels
         context['chart_data'] = final_chart_data
