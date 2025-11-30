@@ -63,7 +63,17 @@ hr {
   background-color: var(--bg-200);
   border-radius: 15px;
   box-shadow: var(--inset-shadow);
+  padding: 0.5rem;
 }
+.card-header {
+  font-family: var(--font-secondary);
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text-100);
+  border-bottom: 1px solid var(--bg-300);
+  padding: 0.4rem;
+}
+
 /* Forms */
 .form-field {
   width: 100%;
@@ -237,5 +247,13 @@ footer {
   transform: scale(1.02);
   cursor: pointer;
 }
+
+/* Charts */
+#spendingChart {
+  width: 60%;
+  height: auto;
+
+}
+
 
 /* --- END Specific component styles --- */

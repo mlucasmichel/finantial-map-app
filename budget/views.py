@@ -229,6 +229,8 @@ class DashboardView(LoginRequiredMixin, TemplateView):
             selected_month = today.month
             selected_year = today.year
 
+        context['selected_month_name'] = month_name[selected_month]
+
         try:
             filter_start_date = date(selected_year, selected_month, 1)
             filter_end_date = filter_start_date + relativedelta(months=1) - timedelta(days=1)
@@ -271,6 +273,14 @@ class DashboardView(LoginRequiredMixin, TemplateView):
         ).order_by('category__name')
 
         context['spending_by_category'] = list(spending_by_category)
+
+        # -- Total spending amount -- #
+        total_monthly_expenses = sum(
+            item['total_spent']
+            for item in spending_by_category
+            if item['total_spent'] is not None
+        ) or Decimal('0.00')
+        context['spending_by_category_total'] = total_monthly_expenses
 
         # -- Budgets for the Selected month -- #
         budgets = Budget.objects.filter(

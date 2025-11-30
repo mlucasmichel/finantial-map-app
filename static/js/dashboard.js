@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Select all account card elements
     const accountCards = document.querySelectorAll('.account-card');
     
-    // Function to adjust the layout of account cards based on screen size
+    // Adjust the layout of account cards based on screen size
     function adjustAccountCardLayout() {
         accountCards.forEach(card => {
             if (lg.matches) {
@@ -45,12 +45,14 @@ document.addEventListener('DOMContentLoaded', function() {
     // =========================================================
 
 
-    // -- Spending Doughnut Chart -- //
+    // =========================================================
+    // START: EXPENSE STRUCTURE DOUGHNUT CHART
+    // =========================================================
     const dataElement = document.getElementById('spending-data');
     if (!dataElement) {
             
         console.error("Error: Spending data element (#spending-data) not found in the template.");
-        // We will continue so other parts of the script can run
+
     } else {
         let spendingData = [];
         try {
@@ -76,17 +78,21 @@ document.addEventListener('DOMContentLoaded', function() {
                 data: {
                     labels: labels,
                     datasets: [{
-                        label: 'Amount Spent',
+                        label: ' Total Spent',
                         data: amounts,
                         backgroundColor: backgroundColors.slice(0, labels.length),
-                        hoverOffset: 4
+                        hoverOffset: 7
                     }]
                 },
                 options: {
-                    responsive: true,
+                    cutout: '60%',
+                    animation: {
+                        animateRotate: true
+                    },
+                    responsive: false,
                     plugins: {
                         legend: {
-                            position: 'top',
+                            position: 'bottom',
                         },
                         title: {
                             display: false,
@@ -99,6 +105,9 @@ document.addEventListener('DOMContentLoaded', function() {
             ctx.parentElement.innerHTML = '<div class="text-center p-5 text-muted">No expense transactions recorded this month to display a chart.</div>';
         }
     }
+    // =========================================================
+    // END: EXPENSE STRUCTURE DOUGHNUT CHART
+    // =========================================================
 
 
     // =========================================================
