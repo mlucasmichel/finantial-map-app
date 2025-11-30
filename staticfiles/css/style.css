@@ -58,6 +58,25 @@ hr {
 .color-accent {
   color: var(--accent-100);
 }
+/* Text */
+.text-bubble {
+  background: linear-gradient(135deg, var(--primary-100), var(--primary-200));
+  color: var(--text-200);
+  padding: 0.2rem 0.5rem;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  box-shadow: var(--inset-shadow);
+  max-width: fit-content;
+}
+.text-bubble-light {
+  background: var(--bg-100);
+  color: var(--text-100);
+  padding: 0.5rem 0.5rem;
+  border-radius: 15px;
+  font-size: 0.9rem;
+  box-shadow: var(--inset-shadow);
+}
+
 /* Cards */
 .main-card {
   background-color: var(--bg-200);
@@ -249,10 +268,14 @@ footer {
 }
 
 /* Charts */
-#spendingChart {
-  width: 60%;
-  height: auto;
 
+.chart-card {
+  min-height: 300px;
+}
+
+#spendingChart {
+  width: 200px !important;
+  height: 200px !important;
 }
 
 

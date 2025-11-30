@@ -89,10 +89,9 @@ document.addEventListener('DOMContentLoaded', function() {
                     animation: {
                         animateRotate: true
                     },
-                    responsive: false,
                     plugins: {
                         legend: {
-                            position: 'bottom',
+                            display: false,
                         },
                         title: {
                             display: false,
