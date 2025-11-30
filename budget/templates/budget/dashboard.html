@@ -9,20 +9,24 @@
         {% if accounts %}
         {% for account in accounts %}
         <div class="col">
-            <div class="account-card">
+            <div class="account-card d-flex justify-content-between align-items-center">
                 <div>
-                    <h5 class="card-title">{{ account.name }}</h5>
-                    <div class="w-100 d-flex justify-content-end">
-                        <p class="m-0">€{{ account.balance|floatformat:2 }}</p>
-                    </div>
+                    <i class="fa-solid fa-wallet fa-2x color-accent"></i>
+                </div>
+                <div>
+                    <p class="card-title h6">{{ account.name }}</p>
+                    <p class="m-0 h5">€{{ account.balance|floatformat:2 }}</p>
+                </div>
+                <div class="account-card-actions mt-2 d-flex justify-content-between">
+                    <a href="{% url 'account_update' account.pk %}"><i class="fa-solid fa-pencil"></i></a>
                 </div>
             </div>
         </div>
         {% endfor %}
         <div class="col">
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title">Add Account +</h5>
+            <div class="account-card-add">
+                <div>
+                    <h5 class="card-title h6">Add Account <i class="fa-solid fa-plus"></i></h5>
                 </div>
             </div>
         </div>

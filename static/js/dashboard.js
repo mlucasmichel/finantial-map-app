@@ -1,5 +1,30 @@
 document.addEventListener('DOMContentLoaded', function() {
     
+    // breakpoints 
+    const sm = window.matchMedia("(min-width: 576px)");
+    const md = window.matchMedia("(min-width: 768px)");
+    const lg = window.matchMedia("(min-width: 992px)");
+    const xl = window.matchMedia("(min-width: 1200px)");
+    const xxl = window.matchMedia("(min-width: 1400px)");
+
+    // Select all account card elements
+    const accountCards = document.querySelectorAll('.account-card');
+    
+    // Function to adjust the layout of account cards based on screen size
+    function adjustAccountCardLayout() {
+        accountCards.forEach(card => {
+            if (lg.matches) {
+                card.children[0].style.display = 'block';
+            } else {
+                card.children[0].style.display = 'none';
+            }
+        });
+    }
+    adjustAccountCardLayout(); 
+    // Adjust layout on window resize
+    window.addEventListener('resize', adjustAccountCardLayout);
+
+    // -- Spending Doughnut Chart -- //
     const dataElement = document.getElementById('spending-data');
     if (!dataElement) {
             
@@ -65,4 +90,5 @@ document.addEventListener('DOMContentLoaded', function() {
         
         ctx.parentElement.innerHTML = '<div class="text-center p-5 text-muted">No expense transactions recorded this month to display a chart.</div>';
     }
+
 });
