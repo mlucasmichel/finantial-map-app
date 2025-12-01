@@ -76,6 +76,14 @@ hr {
   font-size: 0.9rem;
   box-shadow: var(--inset-shadow);
 }
+.text-bubble-accent-light {
+  background: var(--accent-100);
+  color: var(--text-200);
+  border-radius: 20px;
+  font-size: 0.9rem;
+  box-shadow: var(--inset-shadow);
+  max-width: fit-content;
+}
 
 /* Cards */
 .main-card {

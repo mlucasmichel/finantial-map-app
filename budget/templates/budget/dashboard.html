@@ -90,15 +90,15 @@
     <div class="row">
 
         <!-- Start - Expense Structure Chart -->
-        <div class="col-lg-6 mb-2">
+        <div class="col-lg-4 mb-4">
             <div class="main-card chart-card">
                 <div class="card-header d-flex justify-content-between align-items-center">
                     <p class="mb-0">Expense Structure</p>
                 </div>
                 <div class="d-flex flex-column align-items-center p-3">
                     <div class="w-100 d-flex justify-content-between">
-                        <p class="text-bubble mb-0">{{ selected_month_name }}</p>
-                        <p class="text-bubble mb-0">-€{{ spending_by_category_total }}</p>
+                        <p class="text-bubble mb-0">{% if selected_month_name == today|date:"F" %}This Month{% else %}{{ selected_month_name }}{% endif %}</p>
+                        <p class="text-bubble mb-0 fw-bold">-€{{ spending_by_category_total }}</p>
                     </div>
                     <div>
                         <canvas id="spendingChart" class="py-0"></canvas>
@@ -108,16 +108,71 @@
         </div>
         <!-- End - Expense Structure Chart -->
 
-        <!-- Start - Monthly Budgets -->
-        <div class="col-lg-6 mb-2">
+        <!-- Start - Cash Flow Summary -->
+        <div class="col-lg-4 mb-4">
             <div class="main-card chart-card h-100">
+                
+                <!-- Card Header -->
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <p class="mb-0">Cash Flow</p>
+                </div>
+
+                <!-- Card content -->
+                 <div class="vh-100">
+                    <div class="p-3">
+                        <div class="w-100 d-flex justify-content-between align-items-center mb-3">
+                            <p class="text-bubble mb-0">{% if selected_month_name == today|date:"F" %}This Month{% else %}{{ selected_month_name }}{% endif %}</p>
+                            <p class="text-bubble mb-0 fw-bold">€{{ net_cash_flow|floatformat:2 }}</p>
+                        </div>
+                        <div class="my-4 text-bubble-light">
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <span class="fw-bold ">Income</span>
+                                <span class="small text-muted">€{{ total_income|floatformat:2 }}</span>
+                            </div>
+                            <div class="progress" role="progressbar" style="height: 15px;">
+                                <div class="progress-bar bg-success"
+                                    style="width: {{ income_percent }}%"
+                                    aria-valuenow="{{ income_percent }}"
+                                    aria-valuemin="0"
+                                    aria-valuemax="100">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="my-4 text-bubble-light">
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <span class="fw-bold">Expenses</span>
+                                <span class="small text-muted">-€{{ total_expenses|floatformat:2 }}</span>
+                            </div>
+                            <div class="progress" role="progressbar" style="height: 15px;">
+                                <div class="progress-bar bg-danger"
+                                    style="width: {{ expenses_percent }}%"
+                                    aria-valuenow="{{ expenses_percent }}"
+                                    aria-valuemin="0"
+                                    aria-valuemax="100">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                 </div>
+            </div>
+        </div>
+        <!-- End - Cash Flow Summary -->
+
+        <!-- Start - Monthly Budgets -->
+        <div class="col-lg-4 mb-4">
+            <div class="main-card chart-card h-100">
+
+                <!-- Card header -->
                 <div class="card-header d-flex justify-content-between align-items-center">
                     Monthly Budgets
                     <a href="{% url 'budget_list' %}"><i class="fa-solid fa-pencil"></i></a>
                 </div>
+
+                <!-- Card content -->
                 <div class="card-content p-3">
                     <div class="w-100 d-flex justify-content-between mb-3">
-                        <p class="text-bubble mb-0">{{ selected_month_name }}</p>
+                        <p class="text-bubble mb-0">{% if selected_month_name == today|date:"F" %}This Month{% else %}{{ selected_month_name }}{% endif %}</p>
                     </div>
                     {% if budget_summary_list %}
                         {% for budget in budget_summary_list %}
@@ -142,13 +197,14 @@
                         <div class="text-center p-5 text-muted">No budgets set for {{ filter_start_date|date:"F" }}.</div>
                     {% endif %}
                 </div>
+
             </div>
         </div>
         <!-- End - Monthly Budgets -->
     </div>
     
     <!-- Start - Balance Trend -->
-    <div class="row mt-4">
+    <div class="row mb-2">
         <div class="col-12">
             <div class="main-card">
                 <div class="card-header">
@@ -156,8 +212,8 @@
                 </div>
                 <div class="d-flex flex-column align-items-center p-3">
                     <div class="w-100 d-flex justify-content-between align-items-center mb-3">
-                        <p class="text-bubble mb-0">€{{ total_balance|floatformat:2 }}</p>
-                        <p class="text-bubble mb-0">{{ selected_month_name }}</p>
+                        <p class="text-bubble mb-0 fw-bold">€{{ total_balance|floatformat:2 }}</p>
+                        <p class="text-bubble mb-0">{% if selected_month_name == today|date:"F" %}This Month{% else %}{{ selected_month_name }}{% endif %}</p>
                     </div>
                     <canvas id="balanceTrendChart"></canvas>
                 </div>
@@ -172,6 +228,9 @@
 {{ spending_by_category|json_script:"spending-data" }}
 {{ chart_labels|json_script:"balance-labels" }}
 {{ chart_data|json_script:"balance-data" }}
+{{ total_income|json_script:"total-income" }}
+{{ total_expenses|json_script:"total-expenses" }}
+{{ net_cash_flow|json_script:"net-cash-flow" }}
 
 <script src="{% static 'js/dashboard.js' %}"></script>
 {% endblock extra_js %}
