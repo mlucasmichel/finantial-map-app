@@ -65,10 +65,10 @@
                         </li>
                         {% else %}
                         <li class="nav-item">
-                            <a class="nav-link button secondary-btn me-2" href="{% url 'account_login' %}">Log In</a>
+                            <a class="nav-link button secondary-btn text-uppercase me-2" href="{% url 'account_login' %}">Sign In</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link button main-btn ms-2" href="{% url 'account_signup' %}">Sign Up</a>
+                            <a class="nav-link button main-btn text-uppercase ms-2" href="{% url 'account_signup' %}">Sign Up</a>
                         </li>
                         {% endif %}
                     </ul>
@@ -77,14 +77,25 @@
         </nav>
     </header>
 
-    <main class="container-fluid py-2 flex-shrink-0">
+    <main class="container-fluid py-2 {% if user.is_authenticated %}flex-shrink-0{% else %}vh-100{% endif %}">
         {% if messages %}
-        {% for message in messages %}
-        <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
-            {{ message }}
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        <div id="notification-container">
+            {% for message in messages %}
+            <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                {{ message }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                <div class="progress">
+                <div class="progress-bar" 
+                     role="progressbar" 
+                     aria-valuenow="100" 
+                     aria-valuemin="0" 
+                     aria-valuemax="100"
+                     data-duration="5000">
+                </div>
+            </div>
+            </div>
+            {% endfor %}
         </div>
-        {% endfor %}
         {% endif %}
 
         {% block content %}
@@ -107,6 +118,9 @@
 
     <!-- Chart.js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.5.1/dist/chart.umd.min.js"></script>
+
+    <!-- Custom JS -->
+    <script src="{% static 'js/base.js' %}"></script>
 
 
     {% block extra_js %}
