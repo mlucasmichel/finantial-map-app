@@ -60,6 +60,9 @@ hr {
 .color-accent {
   color: var(--accent-100);
 }
+.text-capitalize {
+  text-transform: capitalize;
+}
 /* Text */
 .text-bubble {
   background: linear-gradient(135deg, var(--primary-100), var(--primary-200));
@@ -228,10 +231,15 @@ h6 {
   font-family: var(--font-secondary);
 }
 hr {
-   border: 0;
-    height: 3px;
-    background: var(--bg-300);
-    background-image: linear-gradient(to right, var(--bg-200), var(--bg-300), var(--bg-200));
+  border: 0;
+  height: 3px;
+  background: var(--bg-300);
+  background-image: linear-gradient(
+    to right,
+    var(--bg-200),
+    var(--bg-300),
+    var(--bg-200)
+  );
 }
 
 /* Nav Bar */
@@ -404,14 +412,13 @@ footer {
 
 /* --- Media Queries --- */
 @media screen and (min-width: 768px) {
-  .chart-card {
-    min-height: 400px;
-    max-height: 400px;
-  }
-  .card-content {
-    max-height: 360px;
-  }
   .side-bar-card {
     height: calc(-104px + 100vh);
+  }
+  .responsive-scroll {
+    overflow-y: scroll;
+    scrollbar-width: thin;
+    scrollbar-color: var(--bg-300) transparent;
+    height: calc(-95px + 100vh);
   }
 }
