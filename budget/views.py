@@ -23,6 +23,14 @@ class AccountListView(LoginRequiredMixin, ListView):
 
     def get_queryset(self):
         return Account.objects.filter(user=self.request.user).order_by('name')
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        user = self.request.user
+
+        balance_summary = Account.objects.filter(user=user).aggregate(total_balance=Sum('balance'))
+        context['total_balance'] = balance_summary['total_balance'] or Decimal('0.00')
+        return context
 
 
 # -- Account Create View -- #
