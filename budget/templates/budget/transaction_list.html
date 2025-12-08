@@ -9,38 +9,30 @@
 
 <div class="responsive-scroll">
     {% if transactions %}
-    <div class="table-responsive">
-        <table class="table table-striped table-hover">
-            <thead>
-                <tr>
-                    <th>Date</th>
-                    <th>Account</th>
-                    <th>Category</th>
-                    <th>Description</th>
-                    <th class="text-end">Amount</th>
-                    <th class="text-center">Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for transaction in transactions %}
-                <tr>
-                    <td>{{ transaction.date }}</td>
-                    <td>{{ transaction.account.name }}</td>
-                    <td>{{ transaction.category.name }}</td>
-                    <td>{{ transaction.description|default_if_none:"-" }}</td>
-                    <td class="text-end fw-bold 
-                                {% if transaction.category.type == 'E' %}text-danger{% else %}text-success{% endif %}">
-                        ${{ transaction.amount|floatformat:2 }}
-                    </td>
-                    <td class="text-center">
-                        <a href="{% url 'transaction_update' transaction.pk %}"
-                            class="btn btn-sm btn-outline-secondary">Edit</a>
-                    </td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
+    {% for transaction in transactions %}
+    <div class="main-card py-3 my-3 mt-md-0 align-items-center">
+        <div class="row justify-content-between px-2 align-items-center">
+            <div class="col-3">
+                <p class="mb-0 small text-muted">Category</p>
+                <p class="h6 mb-0">{{ transaction.category.name }} </p>
+            </div>
+
+            <div class="col-3">
+                <p class="mb-0 small text-muted">Account</p>
+                <p class="mb-0">{{ transaction.account.name }}</p>
+            </div>
+
+            <div class="col-3">
+                <p class="mb-0 small text-muted">Description</p>
+                <p class="mb-0">{{ transaction.description | default:"No description" }}</p>
+            </div>
+
+            <div class="col-3 align-items-end d-flex flex-column">
+                <p class="mb-0 {% if transaction.category.type == 'E' %}text-bubble{% else %}py-1 px-2 text-bubble-accent-light{% endif %}">{{ transaction.amount }}</p>
+            </div>
+        </div>
     </div>
+    {% endfor %}
 
     {% if is_paginated %}
     {% endif %}
