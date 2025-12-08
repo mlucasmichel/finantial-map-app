@@ -44,11 +44,23 @@ class AccountForm(forms.ModelForm):
             'balance': forms.NumberInput(attrs={'placeholder': '0.00'})
         }
 
+    def clean_name(self):
+        name = self.cleaned_data.get('name')
+        if name and len(name) < 3:
+            raise forms.ValidationError(
+                "Account name must be at least 3 characters long.")
+        return name
+
     def clean_balance(self):
         balance = self.cleaned_data.get('balance')
         if balance is not None and balance < 0:
             raise forms.ValidationError("Initial balance cannot be negative.")
         return balance
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['name'].widget.attrs.update({'class': 'form-field'})
+        self.fields['balance'].widget.attrs.update({'class': 'form-field'})
 
 
 # -- Transaction Form -- #

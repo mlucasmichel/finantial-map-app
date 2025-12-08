@@ -1,14 +1,49 @@
 {% extends "base.html" %}
+{% load static}
+{% load i18n %}
+
+{% block title %}{% trans "Edit Account" %}{% endblock %}
 
 {% block content %}
-    {% if form.instance.pk %}
-    <h1>Edit Account</h1>
-    {% else %}
-    <h1>Add New Account</h1>
-    {% endif %}
-    <form method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Save</button>
-    </form>
+<section id="account-form-section" class="h-100 d-flex flex-column">
+    <div class="row my-auto justify-content-center">
+        <div class="col-sm-6 col-md-6 col-lg-4 col-xl-3 col-xxl-3">
+            <div class="main-card">
+                <div class="p-4">
+                    <div class="text-center mb-4">
+                        {% if form.instance.pk %}
+                        <div class="row align-items-center">
+                            <div class="col-10 text-end pe-4">
+                                <h1 class="h3 mb-0">Edit Account</h1>
+                            </div>
+                            <div class="col-2"><a href="{{ 'account_delete' }}" class="button delete-btn text-center"><i class="fa-solid fa-trash-can"></i></a></div>
+                        </div>
+                        {% else %}
+                        <h1 class="h3">Add New Account</h1>
+                        {% endif %}
+                        <hr>
+                    </div>
+                    <form method="post">
+                        {% csrf_token %}
+                        <div class="mb-3">
+                            <label for="{{ form.name.id_for_label }}" class="form-label">Account {{ form.name.label }}:</label>
+                            {{ form.name }}
+                            {% for error in form.name.errors %}
+                            <div class="text-danger small">{{ error }}</div>
+                            {% endfor %}
+                        </div>
+                        <div class="mb-3">
+                            <label for="{{ form.balance.id_for_label }}" class="form-label">Initial {{ form.balance.label }}:</label>
+                            {{ form.balance }}
+                            {% for error in form.balance.errors %}
+                            <div class="text-danger small">{{ error }}</div>
+                            {% endfor %}
+                        </div>
+                        <button type="submit" class="button main-btn w-100">Save</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
 {% endblock %}
