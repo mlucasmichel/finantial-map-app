@@ -82,30 +82,30 @@ class TransactionListView(LoginRequiredMixin, ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['filter_form'] = TransactionFilterForm(
-            self.request.GET,
-            user=self.request.user
-            )
+        context['filter_form'] = self.filter_form
         return context
 
     def get_queryset(self):
         user = self.request.user
+
+        self.filter_form = TransactionFilterForm(self.request.GET, user=user)
+        form = self.filter_form
+
         queryset = Transaction.objects.filter(user=user).select_related('account', 'category').order_by('-date')
 
-        form = TransactionFilterForm(self.request.GET, user=user)
-
         if form.is_valid():
-            accounts = form.cleaned_data.get('accounts')
-            categories = form.cleaned_data.get('categories')
-            start_date = form.cleaned_data.get('start_date')
-            end_date = form.cleaned_data.get('end_date')
+            cleaned_data = form.cleaned_data
+            account = cleaned_data.get('accounts')
+            category = cleaned_data.get('categories')
+            start_date = cleaned_data.get('start_date')
+            end_date = cleaned_data.get('end_date')
 
-            if accounts:
-                queryset = queryset.filter(account__in=accounts)
+            if account:
+                queryset = queryset.filter(account=account)
             
-            if categories:
-                queryset = queryset.filter(category__in=categories)
-            
+            if category:
+                queryset = queryset.filter(category=category)
+
             if start_date and end_date:
                 queryset = queryset.filter(date__range=(start_date, end_date))
             elif start_date:

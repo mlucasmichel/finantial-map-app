@@ -86,18 +86,18 @@ class TransactionForm(forms.ModelForm):
 
 # -- Transaction Filter Form -- #
 class TransactionFilterForm(forms.Form):
-    accounts = forms.ModelMultipleChoiceField(
+    accounts = forms.ModelChoiceField(
         queryset=Account.objects.none(),
         required=False,
         label='Accounts',
-        widget=forms.SelectMultiple(attrs={'class': 'form-select'})
+        widget=forms.Select(attrs={'class': 'form-select'})
     )
 
-    categories = forms.ModelMultipleChoiceField(
+    categories = forms.ModelChoiceField(
         queryset=Category.objects.none(),
         required=False,
         label='Categories',
-        widget=forms.SelectMultiple(attrs={'class': 'form-select'})
+        widget=forms.Select(attrs={'class': 'form-select'})
     )
     start_date = forms.DateField(
         required=False,

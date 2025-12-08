@@ -1,27 +1,32 @@
-<h5 class="mb-3">Filter Transactions</h5>
-<form method="get" class="card p-3 shadow-sm">
-    {# Placeholder for your filtering form fields #}
-    <div class="mb-3">
-        <label for="id_account" class="form-label">Account</label>
-        <select class="form-select" id="id_account" name="account">
-            <option value="">All Accounts</option>
-            {# Loop through user's accounts here #}
-        </select>
-    </div>
-    
-    <div class="mb-3">
-        <label for="id_category" class="form-label">Category</label>
-        <select class="form-select" id="id_category" name="category">
-            <option value="">All Categories</option>
-            {# Loop through categories here #}
-        </select>
-    </div>
-    
-    <div class="mb-3">
-        <label for="id_start_date" class="form-label">Start Date</label>
-        <input type="date" class="form-control" id="id_start_date" name="start_date">
-    </div>
+<div class="d-flex flex-column justify-content-between main-card side-bar-card">
+    <div class="row mb-4 text-center align-items-center">
+        <h1 class="h3 mb-3">Records</h1>
+        <hr>
+        <form method="get" action="{% url 'transaction_list' %}">
 
-    <button type="submit" class="btn btn-success w-100">Apply Filters</button>
-    <a href="{% url 'transaction_list' %}" class="btn btn-outline-secondary w-100 mt-2">Clear Filters</a>
-</form>
+            <div class="mb-3">
+                <label for="{{ filter_form.accounts.id_for_label }}" class="form-label">{{ filter_form.accounts.label }}</label>
+                {{ filter_form.accounts }}
+            </div>
+
+            <div class="mb-3">
+                <label for="{{ filter_form.categories.id_for_label }}" class="form-label">{{ filter_form.categories.label }}</label>
+                {{ filter_form.categories }}
+            </div>
+            
+            <div class="mb-3">
+                <label for="{{ filter_form.start_date.id_for_label }}" class="form-label">{{ filter_form.start_date.label }}</label>
+                {# Render the field directly, which uses your DateInput widget #}
+                {{ filter_form.start_date }} 
+            </div>
+            
+            <div class="mb-3">
+                <label for="{{ filter_form.end_date.id_for_label }}" class="form-label">{{ filter_form.end_date.label }}</label>
+                {{ filter_form.end_date }} 
+            </div>
+
+            <button type="submit" class="button btn-add w-100">Apply Filters</button>
+            <a href="{% url 'transaction_list' %}" class="button secondary-btn w-100 mt-2">Clear Filters</a>
+        </form>
+    </div>
+</div>
