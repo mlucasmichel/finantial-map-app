@@ -10,7 +10,7 @@
     
     {% if budgets %}
         <div class="table-responsive">
-            <table class="table table-striped table-hover">
+            <table class=" main-card">
                 <thead>
                     <tr>
                         <th>Category</th>
@@ -27,7 +27,7 @@
                             {{ budget.month|date:"F" }} {{ budget.year }}
                         </td>
                         <td class="text-end fw-bold text-danger">
-                            ${{ budget.limit_amount|floatformat:2 }}
+                            €{{ budget.limit_amount|floatformat:2 }}
                         </td>
                         
                         <td class="text-end">
