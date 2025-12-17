@@ -2,47 +2,42 @@
 {% block title %}Monthly Budgets{% endblock title %}
 
 {% block sidebar_content %}
-    {% include 'budget/budget_sidebar.html' %}
+{% include 'budget/budget_sidebar.html' %}
 {% endblock sidebar_content %}
 
 {% block main_content %}
-    <h1 class="h3 mb-4">Your Monthly Spending Limits</h1>
-    
+<div class="responsive-scroll">
     {% if budgets %}
-        <div class="table-responsive">
-            <table class=" main-card">
-                <thead>
-                    <tr>
-                        <th>Category</th>
-                        <th>Period</th>
-                        <th class="text-end">Monthly Limit</th>
-                        <th class="text-end">Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for budget in budgets %}
-                    <tr>
-                        <td>{{ budget.category.name }}</td>
-                        <td>
-                            {{ budget.month|date:"F" }} {{ budget.year }}
-                        </td>
-                        <td class="text-end fw-bold text-danger">
-                            €{{ budget.limit_amount|floatformat:2 }}
-                        </td>
-                        
-                        <td class="text-end">
-                            <a href="{% url 'budget_update' budget.pk %}" class="btn btn-sm btn-outline-secondary">Edit</a>
-                            <a href="{% url 'budget_delete' budget.pk %}" class="btn btn-sm btn-outline-danger">Delete</a>
-                        </td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
+        {% for budget in budgets %}
+        <div class="main-card py-3 my-3 mt-md-0 align-items-center">
+            <div class="row justify-content-between px-2 align-items-center">
+                <div class="col-3">
+                    <p class="mb-0 small text-muted">Category</p>
+                    <p class="h6 mb-0">{{ budget.category.name }} </p>
+                </div>
+
+                <div class="col-3">
+                    <p class="mb-0 small text-muted">Period</p>
+                    <p class="mb-0">{{ budget.month|date:"F" }} {{ budget.year }}</p>
+                </div>
+
+                <div class="col-3 d-flex flex-column">
+                    <p
+                        class="mb-0 {% if budget.limit_amount|floatformat:2 <= 0 %}text-bubble{% else %}py-1 px-2 text-bubble-accent-light{% endif %}">
+                        {{ budget.limit_amount|floatformat:2 }}</p>
+                </div>
+
+                <div class="col-3 account-card-actions pe-4 d-flex justify-content-end gap-2">
+                    <a href="{% url 'budget_update' budget.pk %}"><i class="fa-solid fa-pencil"></i></a>
+                </div>
+            </div>
         </div>
+        {% endfor %}
+
     {% else %}
-        <div class="alert alert-info" role="alert">
-            You have not set any budgets yet. Use the "Set New Budget" button to create your first spending limit.
-        </div>
+    <div class="alert alert-info" role="alert">
+        You have not set any budgets yet. Use the "Set New Budget" button to create your first spending limit.
+    </div>
     {% endif %}
-    
+</div>
 {% endblock main_content %}
