@@ -1,6 +1,6 @@
 from django import forms
 from datetime import date
-from allauth.account.forms import SignupForm, LoginForm, AddEmailForm
+from allauth.account.forms import SignupForm, LoginForm, AddEmailForm, ChangePasswordForm
 from .models import Account, Transaction, Category, Budget
 
 
@@ -32,6 +32,15 @@ class CustomEmailForm(AddEmailForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields['email'].widget.attrs['class'] = 'form-field'
+
+
+# -- Custom Password Change Form for Allauth -- #
+class CustomPasswordChangeForm(ChangePasswordForm):
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        for field_name in ['old_password', 'password', 'password_confirm']:
+            self.fields[field_name].widget.attrs['class'] = 'form-field'
 
 
 # -- Account Form -- #
