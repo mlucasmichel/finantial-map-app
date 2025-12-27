@@ -27,13 +27,6 @@ class CustomLoginForm(LoginForm):
         self.fields['remember'].widget.attrs['class'] = 'form-checkbox'
 
 
-# -- Custom Profile Form for Allauth -- #
-class CustomEmailForm(AddEmailForm):
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.fields['email'].widget.attrs['class'] = 'form-field'
-
-
 # -- Custom Password Change Form for Allauth -- #
 class CustomPasswordChangeForm(ChangePasswordForm):
     def __init__(self, *args, **kwargs):
@@ -41,6 +34,7 @@ class CustomPasswordChangeForm(ChangePasswordForm):
 
         for field in self.fields:
             self.fields[field].widget.attrs['class'] = 'form-field'
+
 
 # -- Account Form -- #
 class AccountForm(forms.ModelForm):
