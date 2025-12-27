@@ -1,75 +1,38 @@
 {% extends "base.html" %}
+{% load static %}
 {% load i18n %}
 
-{% block title %}Manage Email{% endblock %}
+{% block title %}{% trans "Profile" %}{% endblock %}
 
 {% block content %}
-<div class="row justify-content-center mt-5">
-    <div class="col-md-8 col-lg-7">
-        <div class="card shadow-lg">
-            <div class="card-header bg-primary text-white text-center">
-                <h3 class="mb-0">{% trans "User Profile and Security" %}</h3>
-            </div>
-            <div class="card-body p-4">
+<section id="profile-section" class="h-100 d-flex flex-column">
+    <div class="row my-auto justify-content-center">
+        <div class="col-sm-8 col-md-6 col-lg-5 col-xl-4">
+            <div class="main-card">
+                <div class="p-4">
+                    <div class="text-center mb-4">
+                        <h1 class="h3">{% trans "User Profile" %}</h1>
+                        <hr>
+                    </div>
 
-                <h5 class="mb-3">{% trans "Current User" %}</h5>
-                <p><strong>{% trans "Username:" %}</strong> {{ user.username }}</p>
-
-                <hr>
-
-                <h5 class="mb-3">{% trans "Your Email Address" %}</h5>
-                
-                <p>
-                    {% trans "Your current email address is:" %} 
-                    <strong>{{ user.email }}</strong> 
-                    
-                    {% if not user.email_verified %}
-                        <span class="badge bg-warning ms-2">{% trans "Unverified" %}</span>
-                        <form method="post" action="{% url 'account_email' %}" class="d-inline ms-2">
-                            {% csrf_token %}
-                            <button class="btn btn-sm btn-outline-warning" name="action_send" type="submit">
-                                {% trans "Re-send Verification" %}
-                            </button>
-                        </form>
-                    {% endif %}
-                </p>
-
-                <hr>
-
-                <h5 class="mb-3">{% trans "Security Settings" %}</h5>
-                <div class="d-grid mb-4">
-                    <a href="{% url 'account_change_password' %}" class="btn btn-outline-secondary">
-                        <i class="fas fa-lock me-2"></i> {% trans "Change Password" %}
-                    </a>
-                </div>
-
-                <hr>
-                
-                <h5 class="mb-3">{% trans "Change Email Address" %}</h5>
-
-                <form method="post" action="{% url 'account_email' %}" class="add_email">
-                    {% csrf_token %}
-                    
-                    {% for field in form %}
+                    <div class="profile-details">
                         <div class="mb-3">
-                            <label for="{{ field.id_for_label }}" class="form-label">{{ field.label }}</label>
-                            {{ field }} 
-                            {% for error in field.errors %}
-                                <div class="text-danger small">{{ error }}</div>
-                            {% endfor %}
+                            <strong>{% trans "Username" %}: {{ user.username }}</strong> {{ user.username }}
                         </div>
-                    {% endfor %}
+                        <div class="mb-3">
+                            <strong>{% trans "Email" %}:</strong> {{ user.email }}
+                        </div>
+                    </div>
 
-                    <button class="btn btn-primary" name="action_add" type="submit">
-                        {% trans "Change Email" %}
-                    </button>
-                </form>
-                
-            </div>
-            <div class="card-footer text-center bg-light">
-                <a href="{% url 'dashboard' %}" class="btn btn-link">{% trans "Back to Dashboard" %}</a>
+                    <div class="mt-4">
+                        <a href="{% url 'account_change_password' %}" class="button main-btn w-100 text-uppercase">{% trans "Change Password" %}</a>
+                    </div>
+                </div>
+                <div class="card-footer text-center">
+                    <a href="{% url 'dashboard' %}">{% trans "Back to Dashboard" %}</a>
+                </div>
             </div>
         </div>
     </div>
-</div>
+</section>
 {% endblock %}
