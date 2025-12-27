@@ -85,6 +85,12 @@ class TransactionForm(forms.ModelForm):
         self.fields['category'].queryset = Category.objects.all().order_by(
             'name')
 
+        for field_name, field in self.fields.items():
+            if isinstance(field.widget, forms.Select):
+                field.widget.attrs.update({'class': 'form-select'})
+            else:
+                field.widget.attrs.update({'class': 'form-field'})
+
 
 # -- Transaction Filter Form -- #
 class TransactionFilterForm(forms.Form):

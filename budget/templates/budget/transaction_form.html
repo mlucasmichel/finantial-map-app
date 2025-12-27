@@ -1,62 +1,106 @@
 {% extends 'base.html' %}
+{% load static %}
+{% load i18n %}
+
 {% block title %}
     {% if form.instance.pk %}
-        Edit Transaction
+        {% trans "Edit Transaction" %}
     {% else %}
-        Add New Transaction
+        {% trans "Add New Transaction" %}
     {% endif %}
 {% endblock title %}
 
 {% block content %}
-<div class="row justify-content-center">
-    <div class="col-md-8 col-lg-6">
-        <div class="card shadow-sm">
-            <div class="card-header bg-primary text-white">
-                <h3 class="mb-0">
-                    {% if form.instance.pk %}
-                        Editing Transaction
-                    {% else %}
-                        Record New Transaction
-                    {% endif %}
-                </h3>
-            </div>
-            <div class="card-body">
-                <form method="post">
-                    {% csrf_token %}
-                    
-                    {% if form.non_field_errors %}
-                        <div class="alert alert-danger">
-                            {% for error in form.non_field_errors %}
-                                <p>{{ error }}</p>
-                            {% endfor %}
-                        </div>
-                    {% endif %}
-
-                    {% for field in form %}
-                        <div class="mb-3">
-                            <label for="{{ field.id_for_label }}" class="form-label">{{ field.label }}</label>
-                            {{ field }}
-                            {% if field.help_text %}
-                                <div id="helpId" class="form-text">{{ field.help_text }}</div>
-                            {% endif %}
-                            
-                            {% for error in field.errors %}
-                                <div class="invalid-feedback d-block">{{ error }}</div>
-                            {% endfor %}
-                        </div>
-                    {% endfor %}
-
-                    <button type="submit" class="btn btn-primary w-100 mt-3">
+<section id="transaction-form-section" class="h-100 d-flex flex-column">
+    <div class="row my-auto justify-content-center">
+        <div class="col-sm-8 col-md-7 col-lg-5 col-xl-4 col-xxl-3">
+            <div class="main-card">
+                <div class="p-4">
+                    <div class="text-center mb-4">
                         {% if form.instance.pk %}
-                            Save Changes
+                        <div class="row align-items-center">
+                            <div class="col-10 text-end pe-4">
+                                <h1 class="h3 mb-0">Edit Transaction</h1>
+                            </div>
+                            <div class="col-2">
+                                <a href="{% url 'transaction_delete' form.instance.pk %}" class="button delete-btn text-center">
+                                    <i class="fa-solid fa-trash-can"></i>
+                                </a>
+                            </div>
+                        </div>
                         {% else %}
-                            Save Transaction
+                        <h1 class="h3 mb-0">Add New Transaction</h1>
                         {% endif %}
-                    </button>
-                    <a href="{% url 'transaction_list' %}" class="btn btn-link w-100 mt-2">Cancel</a>
-                </form>
+                        <hr>
+                    </div>
+
+                    <form method="post">
+                        {% csrf_token %}
+
+                        {% if form.non_field_errors %}
+                            <div class="alert alert-danger">
+                                {% for error in form.non_field_errors %}
+                                    <p class="mb-0">{{ error }}</p>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+
+                        <div class="mb-3">
+                            <label for="{{ form.account.id_for_label }}" class="form-label">{{ form.account.label }}:</label>
+                            {{ form.account }}
+                            {% for error in form.account.errors %}
+                                <div class="text-danger small">{{ error }}</div>
+                            {% endfor %}
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="{{ form.account.id_for_label }}" class="form-label">{{ form.account.label }}:</label>
+                            {{ form.category }}
+                            {% for error in form.category.errors %}
+                                <div class="text-danger small">{{ error }}</div>
+                            {% endfor %}
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="{{ form.amount.id_for_label }}" class="form-label">{{ form.amount.label }}:</label>
+                            {{ form.amount }}
+                            {% for error in form.amount.errors %}
+                                <div class="text-danger small">{{ error }}</div>
+                            {% endfor %}
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="{{ form.description.id_for_label }}" class="form-label">{{ form.description.label }}:</label>
+                            {{ form.description }}
+                            {% for error in form.description.errors %}
+                                <div class="text-danger small">{{ error }}</div>
+                            {% endfor %}
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="{{ form.date.id_for_label }}" class="form-label">{{ form.date.label }}:</label>
+                            {{ form.date }}
+                            {% for error in form.date.errors %}
+                                <div class="text-danger small">{{ error }}</div>
+                            {% endfor %}
+                        </div>
+
+                        <button type="submit" class="button main-btn w-100 mt-3">
+                            {% if form.instance.pk %}
+                                Save Changes
+                            {% else %}
+                                Save Transaction
+                            {% endif %}
+                        </button>
+                        <div class="text-center mt-3 w-100">
+                            <a href="{% url 'transaction_list' %}" class="button secondary-btn w-100">Cancel</a>
+                        </div>
+                    </form>
+                    
+                </div>
             </div>
         </div>
     </div>
-</div>
+    
+</section>
 {% endblock content %}
