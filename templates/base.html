@@ -58,13 +58,10 @@
                     <ul class="navbar-nav">
                         {% if user.is_authenticated %}
                         <li class="nav-item">
-                            <a class="nav-link {% if request.resolver_match.url_name == 'transaction_create' %}active{% endif %}" href="{% url 'transaction_create' %}"><p class="text-bubble-accent-light py-1 px-2"><i class="fa-solid fa-plus"></i> Record</p></a>
+                            <a class="nav-link" href="{% url 'transaction_create' %}"><p class="text-bubble-accent-light py-1 px-2 mb-0"><i class="fa-solid fa-plus"></i> Record</p></a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link {% if request.resolver_match.url_name == 'account_profile' %}active{% endif %}" href="{% url 'account_profile' %}"><i class="fa-solid fa-user"></i></a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link btn btn-outline-danger ms-2" href="{% url 'account_logout' %}">Logout</a>
+                            <a class="nav-link {% if request.resolver_match.url_name == 'account_profile' %}active{% endif %}" href="{% url 'account_profile' %}"><p class="py-1 px-2 mb-0"><i class="fa-solid fa-user"></i></p></a>
                         </li>
                         {% else %}
                         <li class="nav-item">
