@@ -17,20 +17,21 @@
 
                     <div class="profile-details">
                         <div class="mb-3">
-                            <strong>{% trans "Username" %}: {{ user.username }}</strong> {{ user.username }}
+                            <strong>{% trans "Username" %}:</strong> {{ user.username }}
                         </div>
                         <div class="mb-3">
                             <strong>{% trans "Email" %}:</strong> {{ user.email }}
                         </div>
                     </div>
 
-                    <div class="mt-4">
+                    <div class="mt-4 text-center">
                         <a href="{% url 'account_change_password' %}" class="button main-btn w-100 text-uppercase">{% trans "Change Password" %}</a>
                     </div>
+                    <div class="card-footer text-center w-100 mt-3">
+                        <a href="{% url 'dashboard' %}" class="button secondary-btn w-100">{% trans "Back to Dashboard" %}</a>
+                    </div>
                 </div>
-                <div class="card-footer text-center">
-                    <a href="{% url 'dashboard' %}">{% trans "Back to Dashboard" %}</a>
-                </div>
+                
             </div>
         </div>
     </div>
