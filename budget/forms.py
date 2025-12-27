@@ -36,12 +36,11 @@ class CustomEmailForm(AddEmailForm):
 
 # -- Custom Password Change Form for Allauth -- #
 class CustomPasswordChangeForm(ChangePasswordForm):
-
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        for field_name in ['old_password', 'new_password1', 'new_password2']:
-            self.fields[field_name].widget.attrs['class'] = 'form-field'
 
+        for field in self.fields:
+            self.fields[field].widget.attrs['class'] = 'form-field'
 
 # -- Account Form -- #
 class AccountForm(forms.ModelForm):
