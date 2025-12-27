@@ -1,5 +1,6 @@
 from decimal import Decimal
 from django.shortcuts import render
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import ListView, CreateView, DeleteView, UpdateView, TemplateView
 from django.urls import reverse_lazy
@@ -12,6 +13,10 @@ from .models import Account, Transaction, Budget
 from .forms import AccountForm, TransactionFilterForm, TransactionForm, BudgetForm
 
 # Create your views here.
+
+@login_required
+def profile_view(request):
+    return render(request, 'account/profile.html')
 
 
 # -- (Account Views Start) -- #

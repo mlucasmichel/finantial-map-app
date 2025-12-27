@@ -22,4 +22,7 @@ urlpatterns = [
     path('budgets/add/', views.BudgetCreateView.as_view(), name='budget_create'),
     path('budgets/edit/<int:pk>/', views.BudgetUpdateView.as_view(), name='budget_update'),
     path('budgets/delete/<int:pk>/', views.BudgetDeleteView.as_view(), name='budget_delete'),
+
+    # -- Profile URL -- #
+    path('accounts/profile/', views.profile_view, name='account_profile'),
 ]
