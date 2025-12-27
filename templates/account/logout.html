@@ -4,32 +4,30 @@
 {% block title %}{% trans "Sign Out" %}{% endblock %}
 
 {% block content %}
-<div class="row justify-content-center mt-5">
-    <div class="col-md-6 col-lg-5">
-        <div class="card shadow-lg">
-            <div class="card-header bg-danger text-white text-center">
-                <h3 class="mb-0">{% trans "Sign Out" %}</h3>
-            </div>
-            <div class="card-body p-4 text-center">
+<section id="logout-section" class="h-100 d-flex flex-column">
+    <div class="row my-auto justify-content-center">
+        <div class="col-sm-8 col-md-6 col-lg-5 col-xl-4 col-xxl-3">
+            <div class="main-card">
+                <div class="p-4 text-center">
+                    <h1 class="h3">{% trans "Sign Out" %}</h1>
+                    <hr>
+                    <p>{% trans 'Are you sure you want to sign out?' %}</p>
 
-                <p>{% trans 'Are you sure you want to sign out?' %}</p>
+                    <form method="post" action="{% url 'account_logout' %}">
+                        {% csrf_token %}
 
-                <form method="post" action="{% url 'account_logout' %}">
-                    {% csrf_token %}
-                    
-                    {% if redirect_field_value %}
-                    <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}"/>
-                    {% endif %}
-                    
-                    <div class="d-grid gap-2 d-md-block mt-4">
-                        <a href="{% url 'dashboard' %}" class="btn btn-outline-secondary">{% trans "Cancel" %}</a>
-                        
-                        <button class="btn btn-danger" type="submit">{% trans "Sign Out" %}</button>
-                    </div>
-                </form>
+                        {% if redirect_field_value %}
+                        <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}"/>
+                        {% endif %}
 
+                        <div class="d-flex justify-content-center gap-3 mt-4">
+                            <a href="{% url 'dashboard' %}" class="button secondary-btn">{% trans "Cancel" %}</a>
+                            <button type="submit" class="button delete-btn">{% trans "Sign Out" %}</button>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
-</div>
+</section>
 {% endblock %}
