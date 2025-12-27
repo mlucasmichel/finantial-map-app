@@ -130,6 +130,7 @@ ACCOUNT_FORMS = {
     'signup': 'budget.forms.CustomSignupForm',
     'login': 'budget.forms.CustomLoginForm',
     'change_password': 'budget.forms.CustomPasswordChangeForm',
+    'reset_password': 'budget.forms.CustomPasswordResetForm',
 }
 
 
