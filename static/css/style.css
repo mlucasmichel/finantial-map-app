@@ -273,6 +273,12 @@ nav {
   margin-right: 3px;
 }
 
+.navbar-nav .nav-link.active {
+  font-weight: 600;
+  color: var(--text-200);
+  border-radius: 15px;
+}
+
 /* Footer */
 footer {
   background-color: var(--bg-200);
