@@ -47,10 +47,10 @@ class CustomPasswordResetForm(ResetPasswordForm):
 # -- Custom Set Password Form for Allauth -- #
 class CustomSetPasswordForm(SetPasswordForm):
     def __init__(self, *args, **kwargs):
-        super(CustomSetPasswordForm, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
 
-        self.fields['password'].widget.attrs['class'] = 'form-field'
-        self.fields['password2'].widget.attrs['class'] = 'form-field'
+        for field in self.fields:
+            self.fields[field].widget.attrs['class'] = 'form-field'
 
 
 # -- Account Form -- #

@@ -43,11 +43,11 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'whitenoise.runserver_nostatic',
     'django.contrib.staticfiles',
+    'budget',
     'django.contrib.sites',
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
-    'budget',
 ]
 
 SITE_ID = 1
@@ -127,11 +127,11 @@ AUTH_PASSWORD_VALIDATORS = [
 ACCOUNT_EMAIL_VERIFICATION = 'none'
 
 ACCOUNT_FORMS = {
-    'signup': 'budget.forms.CustomSignupForm',
     'login': 'budget.forms.CustomLoginForm',
+    'signup': 'budget.forms.CustomSignupForm',
     'change_password': 'budget.forms.CustomPasswordChangeForm',
     'reset_password': 'budget.forms.CustomPasswordResetForm',
-    'set_password': 'budget.forms.CustomSetPasswordForm',
+    'reset_password_from_key': 'budget.forms.CustomSetPasswordForm',
 }
 
 
