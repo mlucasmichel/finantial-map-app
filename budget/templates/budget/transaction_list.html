@@ -10,19 +10,24 @@
 <div class="responsive-scroll">
     {% if transactions %}
     {% for transaction in transactions %}
-    <div class="main-card py-3 my-3 mt-md-0 align-items-center">
+    <div class="main-card py-3 my-3 mt-md-0">
         <a href="{% url 'transaction_update' transaction.pk %}" class="text-decoration-none text-dark w-100">
             <div class="row justify-content-between px-2 align-items-center">
-                <div class="col-2">
-                    <p class="h6 mb-0">{{ transaction.category.name }} </p>
-                    <p class="mb-0">{{ transaction.account.name }}</p>
+
+                <div class="col-5">
+                    <p class="h6 mb-0">{{ transaction.category.name }}</p>
+                    <p class="small text-muted mb-0">{{ transaction.account.name }}</p> 
                 </div>
-                <div class="col-2">
-                    <p class="mb-0">{{ transaction.description | default:"No description" }}</p>
+
+                <div class="col-4">
+                    <p class="mb-0 small">{{ transaction.description | truncatechars:36 | default:"No description" }}</p>
                 </div>
-                <div class="col-2 align-items-end d-flex flex-column">
-                    <p class="mb-0 {% if transaction.category.type == 'E' %}text-bubble{% else %}py-1 px-2 text-bubble-accent-light{% endif %}">{% if transaction.category.type == 'E' %}-{% else %}+{% endif %}{{ transaction.amount }}</p>
-                    <p class="mb-0">{{ transaction.date|date:"d M" }}</p>
+                
+                <div class="col-3 text-end">
+                    <p class="mb-0 {% if transaction.category.type == 'E' %}text-bubble{% else %}py-1 px-2 text-bubble-accent-light{% endif %}">              
+                        {% if transaction.category.type == 'E' %}-{% else %}+{% endif %}{{ transaction.amount }}
+                    </p>
+                    <p class="small text-muted mb-0">{{ transaction.date|date:"d M" }}</p>
                 </div>
             </div>
         </a>
