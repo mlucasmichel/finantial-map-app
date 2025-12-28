@@ -279,6 +279,30 @@ nav {
   border-radius: 15px;
 }
 
+/* Custom dropdown menu */
+.dropdown-menu {
+  background-color: var(--bg-200);
+  border: 1px solid var(--bg-300);
+  border-radius: 15px;
+  box-shadow: var(--float-shadow);
+  padding: 0.5rem 0;
+}
+
+.dropdown-item {
+  color: var(--text-100);
+  font-family: var(--font-primary);
+  padding: 0.5rem 1rem;
+}
+
+.dropdown-item:hover, .dropdown-item:focus {
+  background-color: var(--bg-300);
+  color: var(--text-200);
+}
+
+.dropdown-divider {
+  border-top: 1px solid var(--bg-300);
+}
+
 /* Footer */
 footer {
   background-color: var(--bg-200);
