@@ -23,7 +23,7 @@
                     <p class="mb-0 small">{{ transaction.description | truncatechars:36 | default:"No description" }}</p>
                 </div>
                 
-                <div class="col-3 text-end">
+                <div class="col-3 text-end d-flex flex-column align-items-end">
                     <p class="mb-0 {% if transaction.category.type == 'E' %}text-bubble{% else %}py-1 px-2 text-bubble-accent-light{% endif %}">              
                         {% if transaction.category.type == 'E' %}-{% else %}+{% endif %}{{ transaction.amount }}
                     </p>
