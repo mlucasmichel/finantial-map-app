@@ -1,0 +1,462 @@
+[
+  {
+    "model": "budget.category",
+    "pk": 1,
+    "fields": {
+      "name": "Salary",
+      "type": "I"
+    }
+  },
+  {
+    "model": "budget.category",
+    "pk": 2,
+    "fields": {
+      "name": "Freelance",
+      "type": "I"
+    }
+  },
+  {
+    "model": "budget.category",
+    "pk": 3,
+    "fields": {
+      "name": "Groceries",
+      "type": "E"
+    }
+  },
+  {
+    "model": "budget.category",
+    "pk": 4,
+    "fields": {
+      "name": "Rent",
+      "type": "E"
+    }
+  },
+  {
+    "model": "budget.category",
+    "pk": 5,
+    "fields": {
+      "name": "Utilities",
+      "type": "E"
+    }
+  },
+  {
+    "model": "budget.category",
+    "pk": 6,
+    "fields": {
+      "name": "Transportation",
+      "type": "E"
+    }
+  },
+  {
+    "model": "budget.category",
+    "pk": 7,
+    "fields": {
+      "name": "Dining Out",
+      "type": "E"
+    }
+  },
+  {
+    "model": "budget.category",
+    "pk": 8,
+    "fields": {
+      "name": "Entertainment",
+      "type": "E"
+    }
+  },
+  {
+    "model": "budget.account",
+    "pk": 1,
+    "fields": {
+      "user": 8,
+      "name": "Checking Account",
+      "balance": "0.00"
+    }
+  },
+  {
+    "model": "budget.account",
+    "pk": 2,
+    "fields": {
+      "user": 8,
+      "name": "Savings Account",
+      "balance": "0.00"
+    }
+  },
+  {
+    "model": "budget.account",
+    "pk": 3,
+    "fields": {
+      "user": 8,
+      "name": "Credit Card",
+      "balance": "0.00"
+    }
+  },
+  {
+    "model": "budget.transaction",
+    "pk": 1,
+    "fields": {
+      "user": 8,
+      "account": 1,
+      "category": 1,
+      "amount": "2500.00",
+      "date": "2025-11-01",
+      "description": "Monthly Salary"
+    }
+  },
+  {
+    "model": "budget.transaction",
+    "pk": 2,
+    "fields": {
+      "user": 8,
+      "account": 1,
+      "category": 4,
+      "amount": "1000.00",
+      "date": "2025-11-03",
+      "description": "November Rent Payment"
+    }
+  },
+  {
+    "model": "budget.transaction",
+    "pk": 3,
+    "fields": {
+      "user": 8,
+      "account": 1,
+      "category": 3,
+      "amount": "75.50",
+      "date": "2025-11-05",
+      "description": "Weekly Groceries"
+    }
+  },
+  {
+    "model": "budget.transaction",
+    "pk": 4,
+    "fields": {
+      "user": 8,
+      "account": 1,
+      "category": 6,
+      "amount": "30.00",
+      "date": "2025-11-07",
+      "description": "Bus Pass"
+    }
+  },
+  {
+    "model": "budget.transaction",
+    "pk": 5,
+    "fields": {
+      "user": 8,
+      "account": 1,
+      "category": 7,
+      "amount": "45.00",
+      "date": "2025-11-08",
+      "description": "Dinner with friends"
+    }
+  },
+  {
+    "model": "budget.transaction",
+    "pk": 6,
+    "fields": {
+      "user": 8,
+      "account": 1,
+      "category": 1,
+      "amount": "150.00",
+      "date": "2025-11-10",
+      "description": "Bonus Payment"
+    }
+  },
+  {
+    "model": "budget.transaction",
+    "pk": 7,
+    "fields": {
+      "user": 8,
+      "account": 1,
+      "category": 3,
+      "amount": "80.25",
+      "date": "2025-11-12",
+      "description": "Groceries for the week"
+    }
+  },
+  {
+    "model": "budget.transaction",
+    "pk": 8,
+    "fields": {
+      "user": 8,
+      "account": 1,
+      "category": 5,
+      "amount": "60.00",
+      "date": "2025-11-15",
+      "description": "Electricity Bill"
+    }
+  },
+  {
+    "model": "budget.transaction",
+    "pk": 9,
+    "fields": {
+      "user": 8,
+      "account": 1,
+      "category": 8,
+      "amount": "25.00",
+      "date": "2025-11-16",
+      "description": "Movie Tickets"
+    }
+  },
+  {
+    "model": "budget.transaction",
+    "pk": 10,
+    "fields": {
+      "user": 8,
+      "account": 1,
+      "category": 6,
+      "amount": "15.00",
+      "date": "2025-11-18",
+      "description": "Taxi Ride"
+    }
+  },
+  {
+    "model": "budget.transaction",
+    "pk": 11,
+    "fields": {
+      "user": 8,
+      "account": 1,
+      "category": 3,
+      "amount": "90.00",
+      "date": "2025-11-20",
+      "description": "Supermarket Haul"
+    }
+  },
+  {
+    "model": "budget.transaction",
+    "pk": 12,
+    "fields": {
+      "user": 8,
+      "account": 1,
+      "category": 7,
+      "amount": "20.00",
+      "date": "2025-11-21",
+      "description": "Lunch out"
+    }
+  },
+  {
+    "model": "budget.transaction",
+    "pk": 13,
+    "fields": {
+      "user": 8,
+      "account": 1,
+      "category": 1,
+      "amount": "2500.00",
+      "date": "2025-12-01",
+      "description": "December Salary"
+    }
+  },
+  {
+    "model": "budget.transaction",
+    "pk": 14,
+    "fields": {
+      "user": 8,
+      "account": 1,
+      "category": 4,
+      "amount": "1000.00",
+      "date": "2025-12-03",
+      "description": "December Rent Payment"
+    }
+  },
+  {
+    "model": "budget.transaction",
+    "pk": 15,
+    "fields": {
+      "user": 8,
+      "account": 1,
+      "category": 3,
+      "amount": "70.00",
+      "date": "2025-12-05",
+      "description": "Weekly Groceries"
+    }
+  },
+  {
+    "model": "budget.transaction",
+    "pk": 16,
+    "fields": {
+      "user": 8,
+      "account": 1,
+      "category": 6,
+      "amount": "30.00",
+      "date": "2025-12-07",
+      "description": "Monthly Transit Pass"
+    }
+  },
+  {
+    "model": "budget.transaction",
+    "pk": 17,
+    "fields": {
+      "user": 8,
+      "account": 1,
+      "category": 7,
+      "amount": "55.00",
+      "date": "2025-12-08",
+      "description": "Restaurant Dinner"
+    }
+  },
+  {
+    "model": "budget.transaction",
+    "pk": 18,
+    "fields": {
+      "user": 8,
+      "account": 1,
+      "category": 2,
+      "amount": "300.00",
+      "date": "2025-12-10",
+      "description": "Freelance Project Payment"
+    }
+  },
+  {
+    "model": "budget.transaction",
+    "pk": 19,
+    "fields": {
+      "user": 8,
+      "account": 1,
+      "category": 3,
+      "amount": "85.75",
+      "date": "2025-12-12",
+      "description": "Groceries"
+    }
+  },
+  {
+    "model": "budget.transaction",
+    "pk": 20,
+    "fields": {
+      "user": 8,
+      "account": 1,
+      "category": 5,
+      "amount": "70.00",
+      "date": "2025-12-15",
+      "description": "Internet Bill"
+    }
+  },
+  {
+    "model": "budget.transaction",
+    "pk": 21,
+    "fields": {
+      "user": 8,
+      "account": 1,
+      "category": 8,
+      "amount": "40.00",
+      "date": "2025-12-16",
+      "description": "Concert Tickets"
+    }
+  },
+  {
+    "model": "budget.transaction",
+    "pk": 22,
+    "fields": {
+      "user": 8,
+      "account": 1,
+      "category": 6,
+      "amount": "20.00",
+      "date": "2025-12-18",
+      "description": "Fuel"
+    }
+  },
+  {
+    "model": "budget.transaction",
+    "pk": 23,
+    "fields": {
+      "user": 8,
+      "account": 1,
+      "category": 3,
+      "amount": "110.50",
+      "date": "2025-12-20",
+      "description": "Holiday Groceries"
+    }
+  },
+  {
+    "model": "budget.transaction",
+    "pk": 24,
+    "fields": {
+      "user": 8,
+      "account": 1,
+      "category": 7,
+      "amount": "35.00",
+      "date": "2025-12-21",
+      "description": "Coffee Shop"
+    }
+  },
+  {
+    "model": "budget.transaction",
+    "pk": 25,
+    "fields": {
+      "user": 8,
+      "account": 2,
+      "category": 1,
+      "amount": "500.00",
+      "date": "2025-11-25",
+      "description": "Savings Transfer"
+    }
+  },
+  {
+    "model": "budget.transaction",
+    "pk": 26,
+    "fields": {
+      "user": 8,
+      "account": 2,
+      "category": 1,
+      "amount": "500.00",
+      "date": "2025-12-25",
+      "description": "Savings Transfer"
+    }
+  },
+  {
+    "model": "budget.transaction",
+    "pk": 27,
+    "fields": {
+      "user": 8,
+      "account": 3,
+      "category": 8,
+      "amount": "120.00",
+      "date": "2025-12-19",
+      "description": "Holiday Shopping"
+    }
+  },
+  {
+    "model": "budget.transaction",
+    "pk": 28,
+    "fields": {
+      "user": 8,
+      "account": 3,
+      "category": 7,
+      "amount": "80.00",
+      "date": "2025-12-22",
+      "description": "Restaurant"
+    }
+  },
+  {
+    "model": "budget.budget",
+    "pk": 1,
+    "fields": {
+      "user": 8,
+      "category": 3,
+      "limit_amount": "300.00",
+      "month": 12,
+      "year": 2025
+    }
+  },
+  {
+    "model": "budget.budget",
+    "pk": 2,
+    "fields": {
+      "user": 8,
+      "category": 7,
+      "limit_amount": "200.00",
+      "month": 12,
+      "year": 2025
+    }
+  },
+  {
+    "model": "budget.budget",
+    "pk": 3,
+    "fields": {
+      "user": 8,
+      "category": 6,
+      "limit_amount": "100.00",
+      "month": 12,
+      "year": 2025
+    }
+  }
+]
