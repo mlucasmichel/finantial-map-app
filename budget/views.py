@@ -239,13 +239,8 @@ class DashboardView(LoginRequiredMixin, TemplateView):
         # Helper method for date filtering
         self._get_selected_dates_and_years(user, today, context)
 
-        # -- User Accounts -- #
-        user_accounts = Account.objects.filter(user=user).order_by('name')
-        context['accounts'] = user_accounts
-
-        # -- Total balance across all accounts -- #
-        balance_summary = Account.objects.filter(user=user).aggregate(total_balance=Sum('balance'))
-        context['total_balance'] = balance_summary['total_balance'] or Decimal('0.00')
+        # Helper method for user accounts and total balance
+        self._get_accounts_and_total_balance(user, context)
 
         # -- Transactions for the Selected month -- #
         monthly_transactions = Transaction.objects.filter(
@@ -370,9 +365,6 @@ class DashboardView(LoginRequiredMixin, TemplateView):
         return context
 
     def _get_selected_dates_and_years(self, user, today, context):
-        """
-        Helper method to determine selected month/year and filter dates.
-        """
         try:
             selected_month = int(self.request.GET.get('month'))
             selected_year = int(self.request.GET.get('year'))
@@ -399,3 +391,10 @@ class DashboardView(LoginRequiredMixin, TemplateView):
         context['selected_year'] = selected_year
         context['filter_start_date'] = filter_start_date
         context['filter_end_date'] = filter_end_date
+
+    def _get_accounts_and_total_balance(self, user, context):
+        user_accounts = Account.objects.filter(user=user).order_by('name')
+        context['accounts'] = user_accounts
+
+        balance_summary = Account.objects.filter(user=user).aggregate(total_balance=Sum('balance'))
+        context['total_balance'] = balance_summary['total_balance'] or Decimal('0.00')
