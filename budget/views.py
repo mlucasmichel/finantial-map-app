@@ -236,33 +236,8 @@ class DashboardView(LoginRequiredMixin, TemplateView):
 
         context['today'] = today
 
-        # -- Current Month and Year -- #
-        try:
-            selected_month = int(self.request.GET.get('month'))
-            selected_year = int(self.request.GET.get('year'))
-        except (TypeError, ValueError):
-            selected_month = today.month
-            selected_year = today.year
-
-        context['selected_month_name'] = month_name[selected_month]
-
-        try:
-            filter_start_date = date(selected_year, selected_month, 1)
-            filter_end_date = filter_start_date + relativedelta(months=1) - timedelta(days=1)
-        except ValueError:
-            filter_start_date = today.replace(day=1)
-            filter_end_date = today
-
-        earliest_transaction = Transaction.objects.filter(user=user).order_by('date').first()
-        earliest_year = earliest_transaction.date.year if earliest_transaction else today.year
-        available_years = range(today.year, earliest_year - 1, -1)
-
-        context['months'] = [(i, month_name[i]) for i in range(1, 13)]
-        context['years'] = list(available_years)
-        context['selected_month'] = selected_month
-        context['selected_year'] = selected_year
-        context['filter_start_date'] = filter_start_date
-        context['filter_end_date'] = filter_end_date
+        # Helper method for date filtering
+        self._get_selected_dates_and_years(user, today, context)
 
         # -- User Accounts -- #
         user_accounts = Account.objects.filter(user=user).order_by('name')
@@ -275,7 +250,7 @@ class DashboardView(LoginRequiredMixin, TemplateView):
         # -- Transactions for the Selected month -- #
         monthly_transactions = Transaction.objects.filter(
             user=user,
-            date__range=(filter_start_date, filter_end_date)
+            date__range=(context['filter_start_date'], context['filter_end_date'])
         )
 
         # -- Total spending grouped by category -- #
@@ -300,8 +275,8 @@ class DashboardView(LoginRequiredMixin, TemplateView):
         # -- Budgets for the Selected month -- #
         budgets = Budget.objects.filter(
             user=user,
-            month=selected_month,
-            year=selected_year
+            month=context['selected_month'],
+            year=context['selected_year']
         ).select_related('category')
 
         budget_summary_list = []
@@ -358,7 +333,7 @@ class DashboardView(LoginRequiredMixin, TemplateView):
         # -- Calculate balance trend at the start of the selected month -- #
         net_change_since_start = Transaction.objects.filter(
             user=user,
-            date__gte=filter_start_date
+            date__gte=context['filter_start_date']
         ).aggregate(Sum('amount'))['amount__sum'] or Decimal('0.00')
 
         start_of_month_balance = context['total_balance'] - net_change_since_start
@@ -366,7 +341,7 @@ class DashboardView(LoginRequiredMixin, TemplateView):
         # -- Get transactions within the selected month -- #
         transactions_in_period = Transaction.objects.filter(
             user=user,
-            date__range=(filter_start_date, filter_end_date)
+            date__range=(context['filter_start_date'], context['filter_end_date'])
         ).order_by('date', 'pk').values('date', 'amount')
 
         # -- Calculate balance for chart -- #
@@ -375,7 +350,7 @@ class DashboardView(LoginRequiredMixin, TemplateView):
         cumulative_balance = start_of_month_balance
         last_date = None
 
-        final_chart_labels.append(filter_start_date.strftime('%d/%m'))
+        final_chart_labels.append(context['filter_start_date'].strftime('%d/%m'))
         final_chart_data.append(cumulative_balance)
 
         for t in transactions_in_period:
@@ -385,11 +360,42 @@ class DashboardView(LoginRequiredMixin, TemplateView):
             final_chart_data.append(cumulative_balance)
             last_date = t['date']
 
-        if not last_date or last_date < filter_end_date:
-            final_chart_labels.append(filter_end_date.strftime('%d/%m'))
+        if not last_date or last_date < context['filter_end_date']:
+            final_chart_labels.append(context['filter_end_date'].strftime('%d/%m'))
             final_chart_data.append(cumulative_balance)
 
         context['chart_labels'] = final_chart_labels
         context['chart_data'] = final_chart_data
 
         return context
+
+    def _get_selected_dates_and_years(self, user, today, context):
+        """
+        Helper method to determine selected month/year and filter dates.
+        """
+        try:
+            selected_month = int(self.request.GET.get('month'))
+            selected_year = int(self.request.GET.get('year'))
+        except (TypeError, ValueError):
+            selected_month = today.month
+            selected_year = today.year
+
+        context['selected_month_name'] = month_name[selected_month]
+
+        try:
+            filter_start_date = date(selected_year, selected_month, 1)
+            filter_end_date = filter_start_date + relativedelta(months=1) - timedelta(days=1)
+        except ValueError:
+            filter_start_date = today.replace(day=1)
+            filter_end_date = today
+
+        earliest_transaction = Transaction.objects.filter(user=user).order_by('date').first()
+        earliest_year = earliest_transaction.date.year if earliest_transaction else today.year
+        available_years = range(earliest_year, today.year + 1)
+
+        context['months'] = [(i, month_name[i]) for i in range(1, 13)]
+        context['years'] = list(available_years)
+        context['selected_month'] = selected_month
+        context['selected_year'] = selected_year
+        context['filter_start_date'] = filter_start_date
+        context['filter_end_date'] = filter_end_date
