@@ -6,8 +6,9 @@ from budget.models import Account, Category, Transaction
 
 User = get_user_model()
 
+
 class TransactionSignalTests(TestCase):
-    
+
     def setUp(self):
         self.user = User.objects.create_user(username='testuser', password='testpassword')
         self.client.login(username='testuser', password='testpassword')
