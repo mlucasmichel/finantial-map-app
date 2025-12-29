@@ -41,11 +41,6 @@ a {
   color: inherit;
 }
 
-hr {
-  border: none;
-  border-top: 1px solid var(--text-100);
-  margin: 1rem 0;
-}
 /* --- END Reset styles --- */
 
 /* --- Utility classes --- */
