@@ -240,13 +240,10 @@ class DashboardView(LoginRequiredMixin, TemplateView):
         self._get_selected_dates_and_years(user, today, context)
 
         # Helper method for user accounts and total balance
-        self._get_accounts_and_total_balance(user, context)
+        self._get_user_accounts_and_total_balance(user, context)
 
-        # -- Transactions for the Selected month -- #
-        monthly_transactions = Transaction.objects.filter(
-            user=user,
-            date__range=(context['filter_start_date'], context['filter_end_date'])
-        )
+        # Helper method for monthly transactions
+        monthly_transactions = self._get_monthly_transactions(user, context['filter_start_date'], context['filter_end_date'])
 
         # -- Total spending grouped by category -- #
         spending_by_category = monthly_transactions.filter(
@@ -392,9 +389,15 @@ class DashboardView(LoginRequiredMixin, TemplateView):
         context['filter_start_date'] = filter_start_date
         context['filter_end_date'] = filter_end_date
 
-    def _get_accounts_and_total_balance(self, user, context):
+    def _get_user_accounts_and_total_balance(self, user, context):
         user_accounts = Account.objects.filter(user=user).order_by('name')
         context['accounts'] = user_accounts
 
         balance_summary = Account.objects.filter(user=user).aggregate(total_balance=Sum('balance'))
         context['total_balance'] = balance_summary['total_balance'] or Decimal('0.00')
+
+    def _get_monthly_transactions(self, user, filter_start_date, filter_end_date):
+        return Transaction.objects.filter(
+            user=user,
+            date__range=(filter_start_date, filter_end_date)
+        )
