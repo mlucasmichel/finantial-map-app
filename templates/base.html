@@ -5,6 +5,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Financial Map | {% block title %}Home{% endblock title %}</title>
+
+    <!-- Favicons generated with https://favicomatic.com/ -->
+    <link rel="icon" type="image/png" sizes="32x32" href="{% static 'favicons/favicon-32x32.png' %}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{% static 'favicons/favicon-16x16.png' %}">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="theme-color" content="#ffffff">
+    <link rel="shortcut icon" href="{% static 'favicons/favicon.ico' %}">
+    <!-- End Favicons -->
 
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
@@ -12,8 +21,7 @@
 
     <!-- Custom CSS -->
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
-
-    <title>Financial Map | {% block title %}Home{% endblock title %}</title>
+    
 </head>
 
 <body class="d-flex flex-column min-vh-100">
