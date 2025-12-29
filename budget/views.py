@@ -253,34 +253,8 @@ class DashboardView(LoginRequiredMixin, TemplateView):
         # Helper method for budget summary
         self._get_budget_summary(user, context['selected_month'], context['selected_year'], spending_by_category_data['spending_by_category'], context)
 
-        # -- Cash Flow Summary for the Selected month -- #
-        total_income_agg = monthly_transactions.filter(
-            category__type='I'
-        ).aggregate(Sum('amount'))['amount__sum'] or Decimal('0.00')
-
-        total_expenses_agg = monthly_transactions.filter(
-            category__type='E'
-        ).aggregate(Sum('amount'))['amount__sum'] or Decimal('0.00')
-
-        total_expenses_abs = abs(total_expenses_agg)
-
-        gross_flow = total_income_agg + total_expenses_abs
-
-        if gross_flow > 0:
-            income_percent = (total_income_agg / gross_flow) * 100
-            expenses_percent = (total_expenses_abs / gross_flow) * 100
-        else:
-            income_percent = 0
-            expenses_percent = 0
-
-        net_cash_flow = total_income_agg - total_expenses_abs
-
-        context['total_income'] = total_income_agg
-        context['total_expenses'] = total_expenses_abs
-        context['net_cash_flow'] = net_cash_flow
-        context['income_percent'] = income_percent
-        context['expenses_percent'] = expenses_percent
-        context['gross_flow'] = gross_flow
+        # Helper method for cash flow summary
+        self._get_cash_flow_summary(monthly_transactions, context)
 
         # -- Calculate balance trend at the start of the selected month -- #
         net_change_since_start = Transaction.objects.filter(
@@ -410,3 +384,32 @@ class DashboardView(LoginRequiredMixin, TemplateView):
             'spending_by_category': list(spending_by_cateogry),
             'total_monthly_expenses': total_monthly_expenses
         }
+
+    def _get_cash_flow_summary(self, monthly_transactions, context):
+        total_income_agg = monthly_transactions.filter(
+            category__type='I'
+        ).aggregate(Sum('amount'))['amount__sum'] or Decimal('0.00')
+
+        total_expenses_agg = monthly_transactions.filter(
+            category__type='E'
+        ).aggregate(Sum('amount'))['amount__sum'] or Decimal('0.00')
+
+        total_expenses_abs = abs(total_expenses_agg)
+
+        gross_flow = total_income_agg + total_expenses_abs
+
+        if gross_flow > 0:
+            income_percent = (total_income_agg / gross_flow) * 100
+            expenses_percent = (total_expenses_abs / gross_flow) * 100
+        else:
+            income_percent = 0
+            expenses_percent = 0
+
+        net_cash_flow = total_income_agg - total_expenses_abs
+
+        context['total_income'] = total_income_agg
+        context['total_expenses'] = total_expenses_abs
+        context['net_cash_flow'] = net_cash_flow
+        context['income_percent'] = income_percent
+        context['expenses_percent'] = expenses_percent
+        context['gross_flow'] = gross_flow
