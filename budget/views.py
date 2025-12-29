@@ -256,42 +256,14 @@ class DashboardView(LoginRequiredMixin, TemplateView):
         # Helper method for cash flow summary
         self._get_cash_flow_summary(monthly_transactions, context)
 
-        # -- Calculate balance trend at the start of the selected month -- #
-        net_change_since_start = Transaction.objects.filter(
-            user=user,
-            date__gte=context['filter_start_date']
-        ).aggregate(Sum('amount'))['amount__sum'] or Decimal('0.00')
-
-        start_of_month_balance = context['total_balance'] - net_change_since_start
-
-        # -- Get transactions within the selected month -- #
-        transactions_in_period = Transaction.objects.filter(
-            user=user,
-            date__range=(context['filter_start_date'], context['filter_end_date'])
-        ).order_by('date', 'pk').values('date', 'amount')
-
-        # -- Calculate balance for chart -- #
-        final_chart_labels = []
-        final_chart_data = []
-        cumulative_balance = start_of_month_balance
-        last_date = None
-
-        final_chart_labels.append(context['filter_start_date'].strftime('%d/%m'))
-        final_chart_data.append(cumulative_balance)
-
-        for t in transactions_in_period:
-            day_str = t['date'].strftime('%d/%m')
-            cumulative_balance += t['amount']
-            final_chart_labels.append(day_str)
-            final_chart_data.append(cumulative_balance)
-            last_date = t['date']
-
-        if not last_date or last_date < context['filter_end_date']:
-            final_chart_labels.append(context['filter_end_date'].strftime('%d/%m'))
-            final_chart_data.append(cumulative_balance)
-
-        context['chart_labels'] = final_chart_labels
-        context['chart_data'] = final_chart_data
+        # Helper method for balance trend chart data
+        self._get_balance_trend_chart_data(
+            user,
+            context['filter_start_date'],
+            context['filter_end_date'],
+            context['total_balance'],
+            context
+        )
 
         return context
 
@@ -413,3 +385,41 @@ class DashboardView(LoginRequiredMixin, TemplateView):
         context['income_percent'] = income_percent
         context['expenses_percent'] = expenses_percent
         context['gross_flow'] = gross_flow
+
+    def _get_balance_trend_chart_data(self, user, start_date, end_date, current_total_balance, context):
+        net_change_since_start = Transaction.objects.filter(
+            user=user,
+            date__gte=start_date,
+        ).values('category__type').annotate(
+            total_amount=Sum('amount')
+        )
+
+        income_since_start = sum(t['total_amount'] for t in net_change_since_start if t['category__type'] == 'I')
+        expenses_since_start = sum(t['total_amount'] for t in net_change_since_start if t['category__type'] == 'E')
+
+        start_of_period_balance = current_total_balance - (income_since_start - expenses_since_start)
+
+        transactions_in_period = Transaction.objects.filter(
+            user=user,
+            date__range=(start_date, end_date)
+        ).order_by('date', 'pk').select_related('category')
+
+        chart_labels = [start_date.strftime('%d/%m')]
+        chart_data = [start_of_period_balance]
+        cumulative_balance = start_of_period_balance
+
+        for t in transactions_in_period:
+            if t.category.type == 'I':
+                cumulative_balance += t.amount
+            else:
+                cumulative_balance -= t.amount
+
+            chart_labels.append(t.date.strftime('%d/%m'))
+            chart_data.append(cumulative_balance)
+
+        if not transactions_in_period or transactions_in_period.last().date < end_date:
+            chart_labels.append(end_date.strftime('%d/%m'))
+            chart_data.append(cumulative_balance)
+
+        context['chart_labels'] = chart_labels
+        context['chart_data'] = chart_data
