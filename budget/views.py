@@ -245,24 +245,10 @@ class DashboardView(LoginRequiredMixin, TemplateView):
         # Helper method for monthly transactions
         monthly_transactions = self._get_monthly_transactions(user, context['filter_start_date'], context['filter_end_date'])
 
-        # -- Total spending grouped by category -- #
-        spending_by_category = monthly_transactions.filter(
-            category__type='E'
-        ).values(
-            'category__name'
-        ).annotate(
-            total_spent=Sum('amount')
-        ).order_by('category__name')
-
-        context['spending_by_category'] = list(spending_by_category)
-
-        # -- Total spending amount -- #
-        total_monthly_expenses = sum(
-            item['total_spent']
-            for item in spending_by_category
-            if item['total_spent'] is not None
-        ) or Decimal('0.00')
-        context['spending_by_category_total'] = total_monthly_expenses
+        # Helper method to get spending by category
+        spending_by_category_data = self._get_spending_by_category(monthly_transactions)
+        context['spending_by_category'] = spending_by_category_data['spending_by_category']
+        context['spending_by_category_total'] = spending_by_category_data['total_monthly_expenses']
 
         # -- Budgets for the Selected month -- #
         budgets = Budget.objects.filter(
@@ -272,7 +258,7 @@ class DashboardView(LoginRequiredMixin, TemplateView):
         ).select_related('category')
 
         budget_summary_list = []
-        spent_map = {item['category__name']: item['total_spent'] for item in spending_by_category}
+        spent_map = {item['category__name']: item['total_spent'] for item in spending_by_category_data['spending_by_category']}
 
         for budget in budgets:
             category_name = budget.category.name
@@ -401,3 +387,23 @@ class DashboardView(LoginRequiredMixin, TemplateView):
             user=user,
             date__range=(filter_start_date, filter_end_date)
         )
+
+    def _get_spending_by_category(self, monthly_transactions):
+        spending_by_cateogry = monthly_transactions.filter(
+            category__type='E'
+        ).values(
+            'category__name'
+        ).annotate(
+            total_spent=Sum('amount')
+        ).order_by('category__name')
+
+        total_monthly_expenses = sum(
+            item['total_spent']
+            for item in spending_by_cateogry
+            if item['total_spent'] is not None
+        ) or Decimal('0.00')
+
+        return {
+            'spending_by_category': list(spending_by_cateogry),
+            'total_monthly_expenses': total_monthly_expenses
+        }
