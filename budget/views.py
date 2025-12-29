@@ -250,34 +250,8 @@ class DashboardView(LoginRequiredMixin, TemplateView):
         context['spending_by_category'] = spending_by_category_data['spending_by_category']
         context['spending_by_category_total'] = spending_by_category_data['total_monthly_expenses']
 
-        # -- Budgets for the Selected month -- #
-        budgets = Budget.objects.filter(
-            user=user,
-            month=context['selected_month'],
-            year=context['selected_year']
-        ).select_related('category')
-
-        budget_summary_list = []
-        spent_map = {item['category__name']: item['total_spent'] for item in spending_by_category_data['spending_by_category']}
-
-        for budget in budgets:
-            category_name = budget.category.name
-            limit = budget.limit_amount
-            spent = spent_map.get(category_name, Decimal('0.00'))
-            remaining = limit - spent
-
-            percent_used = (spent / limit * 100) if limit > 0 else 0
-
-            budget_summary_list.append({
-                'category_name': category_name,
-                'limit': limit,
-                'spent': spent,
-                'remaining': remaining,
-                'percent_used': percent_used,
-                'status': 'danger' if percent_used > 100 else 'warning' if percent_used > 75 else 'success'
-            })
-
-        context['budget_summary_list'] = budget_summary_list
+        # Helper method for budget summary
+        self._get_budget_summary(user, context['selected_month'], context['selected_year'], spending_by_category_data['spending_by_category'], context)
 
         # -- Cash Flow Summary for the Selected month -- #
         total_income_agg = monthly_transactions.filter(
@@ -346,6 +320,35 @@ class DashboardView(LoginRequiredMixin, TemplateView):
         context['chart_data'] = final_chart_data
 
         return context
+
+    # -- Helper Methods -- #
+    def _get_budget_summary(self, user, selected_month, selected_year, spending_by_category, context):
+        budgets = Budget.objects.filter(
+            user=user,
+            month=selected_month,
+            year=selected_year
+        ).select_related('category')
+
+        budget_summary_list = []
+        spent_map = {item['category__name']: item['total_spent'] for item in spending_by_category}
+
+        for budget in budgets:
+            category_name = budget.category.name
+            limit = budget.limit_amount
+            spent = spent_map.get(category_name, Decimal('0.00'))
+            remaining = limit - spent
+
+            percent_used = (spent / limit * 100) if limit > 0 else 0
+
+            budget_summary_list.append({
+                'category_name': category_name,
+                'limit': limit,
+                'spent': spent,
+                'remaining': remaining,
+                'percent_used': percent_used,
+                'status': 'danger' if percent_used > 100 else 'warning' if percent_used > 75 else 'success'
+            })
+        context['budget_summary_list'] = budget_summary_list
 
     def _get_selected_dates_and_years(self, user, today, context):
         try:
